@@ -10,10 +10,11 @@ pelo roteador local e pelas skills documentados no fim deste arquivo.
 ## Memória técnica e versionamento
 
 Versão estável de referência: `v0.2-phase2`. São 142 testes aprovados e oito
-comandos validados no Windows real. O repositório está na branch `main`, apenas
-localmente. A criação do GitHub privado `max-assistant` foi autorizada, mas ainda
-não ocorreu: o navegador gerenciado precisa de login no GitHub antes de identificar
-a conta e criar o repositório. Nenhum remote ou push foi realizado.
+comandos validados no Windows real. O repositório privado está em
+[GitHub: luzinn1012-star/max-assistant](https://github.com/luzinn1012-star/max-assistant).
+A branch `main` acompanha `origin/main`; o histórico e a tag estável foram enviados
+com push normal, sem force. A tag permanece no commit estável, mesmo quando novos
+commits apenas de documentação são adicionados à main.
 
 - [Estado comprovado e limitações](CURRENT_STATE.md)
 - [Arquitetura implementada](ARCHITECTURE.md)

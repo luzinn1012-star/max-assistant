@@ -83,28 +83,38 @@ de teste somente para a Calculadora. O primeiro restaura o áudio anterior.
 
 ## Git e escopo
 
-Organização técnica revisada em 2026-10-21. Branch main, sem remote e sem
-push. O usuário autorizou explicitamente a criação do repositório GitHub privado
-max-assistant. A tentativa de criação abriu a tela de login do GitHub no navegador
-gerenciado; nenhuma conta ou URL de repositório pôde ser confirmada. Nenhum
-repositório foi criado ou alterado. A publicação aguarda autenticação do usuário
-nessa janela; não é necessário enviar senha ou token pelo chat.
+Organização técnica revisada em 2026-10-21. Repositório privado criado após
+confirmação explícita do usuário:
+https://github.com/luzinn1012-star/max-assistant
 
-A referência estável é v0.2-phase2: fases 1/2 e validação 2.1, com 142 testes
-novamente aprovados durante a organização do Git. A tag local não comprova push.
-O primeiro commit consolidado da validação é b39bfaa2e3446abf2a2c6b65c01289e23443df44.
+Conta, URL de clone e visibilidade private foram verificadas pela integração
+GitHub. Origin: https://github.com/luzinn1012-star/max-assistant.git.
+A branch main acompanha origin/main. O histórico completo e a tag v0.2-phase2
+foram publicados com push normal, sem force, e as referências remotas conferidas.
 
-O .gitignore foi ampliado e verificado com 40 casos de arquivos protegidos ou
-permitidos. A revisão do histórico não encontrou padrões de segredos; isso não
-substitui nova revisão antes de publicar. Os relatórios contêm metadados da
-máquina, portanto o destino proposto é privado. Nenhum arquivo de autenticação
-do Codex foi lido ou copiado nesta organização.
+A tentativa inicial pelo navegador encontrou a tela de login. Depois, a
+integração GitHub passou a estar disponível e criou o repositório vazio.
+A autenticação do Git local foi concluída pelo Git Credential Manager oficial,
+sem copiar tokens da integração ou ler arquivos privados de autenticação.
 
-Autoria técnica MAX <max@localhost>, limitada aos commits desta tarefa; nenhuma
-configuração global do Git foi alterada. Consultar os hashes com git log e a tag
-com git show v0.2-phase2. Não incluir o hash do próprio commit neste documento.
+A referência estável v0.2-phase2 permanece no commit
+05bde59e0dfee89b779da4d09e9945e1c4712f4f, com fases 1/2 e validação 2.1.
+Commits posteriores apenas de documentação não movem essa tag.
+O primeiro commit consolidado da validação é
+b39bfaa2e3446abf2a2c6b65c01289e23443df44.
+
+A suíte de 142 testes foi reexecutada antes do envio. A revisão de todo o
+histórico não identificou segredos reais nos padrões verificados; a única
+ocorrência revisada foi uma URL fictícia em teste de rejeição de credenciais.
+O .gitignore foi verificado com 40 casos. Relatórios incluem metadados da máquina
+e permanecem no repositório privado. Repetir a revisão antes de novos pushes.
+
+Autoria técnica MAX <max@localhost>, limitada aos commits desta organização;
+nenhuma configuração global do Git foi alterada. Consultar git log para o hash
+mais recente, git status para sincronização e git show v0.2-phase2 para a tag.
+Não incluir o hash do próprio commit neste documento.
 
 README, ROADMAP, TODO, ARCHITECTURE, DECISIONS e CHANGELOG complementam este
 estado. As seis Issues das fases futuras estão planejadas, ainda não criadas.
-Nenhuma funcionalidade foi alterada nesta organização. Voz, wake word, novas
-skills, Spotify API e Modo Jogo continuam sem implementação.
+Nenhuma funcionalidade foi alterada. Voz, wake word, novas skills, Spotify API
+e Modo Jogo continuam sem implementação.

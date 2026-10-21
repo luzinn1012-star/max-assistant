@@ -57,8 +57,9 @@ repositório privado; publicação pública exigiria revisão própria desses da
 
 ## D009 — Publicação controlada e histórico sem reescrita
 
-Sugestão de destino: repositório privado max-assistant. Criá-lo somente após
-confirmação explícita do usuário. Não inventar conta ou URL, não fazer force push.
+Destino confirmado: repositório privado luzinn1012-star/max-assistant, criado
+após confirmação explícita do usuário. Conta, URL e visibilidade foram verificadas.
+O histórico e a tag foram enviados com Git normal; não fazer force push.
 Usar commits pequenos, Issues futuras por fase e a tag estável v0.2-phase2
 após a suíte passar e as evidências da fase 2.1 serem verificadas.
 

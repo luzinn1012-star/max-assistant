@@ -31,9 +31,13 @@ técnica local. A tag identifica um commit validado, não uma publicação remot
 - .gitignore ampliado para credenciais, autenticação, ambientes, caches e runtime.
 - README/CURRENT_STATE revisados e ROADMAP/TODO/ARCHITECTURE/DECISIONS criados.
 - Histórico mantido em commits pequenos, sem mudanças no funcionamento do MAX.
-- Criação do repositório privado max-assistant autorizada pelo usuário.
-- Tentativa pelo navegador interrompida na tela de login; nenhum repositório foi
-  criado, nenhum remote configurado e nenhum push realizado. Publicação aguarda login.
+- Repositório privado luzinn1012-star/max-assistant criado após autorização.
+- O navegador inicialmente exigiu login; a integração GitHub tornou-se disponível
+  e criou o repositório. Git Credential Manager concluiu a autenticação oficial.
+- Origin configurado e histórico completo/main/tag enviados por push normal,
+  sem force. As referências remotas foram conferidas com as referências locais.
+- Suíte de 142 testes novamente aprovada e histórico revisado para padrões de
+  segredos antes do envio. Nenhuma funcionalidade foi alterada.
 
 ## Marco da fase 1 — 2026-10-19
 
