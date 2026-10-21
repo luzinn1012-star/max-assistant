@@ -2,7 +2,7 @@
 
 ## FASE 2.5: hardening do núcleo
 
-Estado local: concluído e validado, sem novas skills ou avanço para a fase 3.
+Estado: Fase 2.5 validada localmente e no CI, sem novas skills ou avanço para a fase 3.
 195 testes principais e 87 subtestes passaram; os 142 métodos originais foram
 preservados em unit/integration/windows/providers e reexecutados separadamente.
 
@@ -21,9 +21,16 @@ O benchmark usa 5000 amostras, 200 de aquecimento e doubles: mediana do fluxo
 local de aproximadamente 0.05 ms, sem LLM e sem medir abertura real de janelas.
 Logging de saída foi desativado para a medição e isso consta no relatório.
 
-O workflow .github/workflows/quality.yml está configurado para Windows/Python
-3.12 e 3.13. Checks locais aprovados não equivalem a uma execução remota:
-o resultado na aba Actions deve ser conferido após o push.
+O workflow MAX quality (.github/workflows/quality.yml) foi concluído com sucesso
+para o commit af996d4ab42b188f1e5bc8e094b36b49ff63df4c, no evento push.
+A execução foi confirmada pela API oficial do GitHub em 2026-10-21:
+https://github.com/luzinn1012-star/max-assistant/actions/runs/39630243668
+
+Os dois jobs quality (3.12) e quality (3.13), em Windows, passaram. Instalação de
+dependências, pip check, Ruff lint/formatação, mypy e pytest com cobertura foram
+aprovados em ambos. A execução terminou em 2026-10-21 às 15:57:45 UTC.
+Nenhuma correção de código foi necessária nesta conferência; somente este
+registro e o ROADMAP foram atualizados.
 Nenhuma ação real do Windows ou inferência live foi repetida nesta fase.
 A evidência real anterior continua preservada abaixo.
 A tag estável v0.2-phase2 permanece no commit anterior e não foi movida.
