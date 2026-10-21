@@ -1,10 +1,33 @@
-# MAX — fase dois
+# MAX — fase dois validada no Windows
 
 Assistente pessoal para Windows, em português do Brasil, com terminal, conversa,
 provider Codex autenticado pelo ChatGPT e fallback local para Ollama.
 Python 3.12 ou superior. A fase dois usa psutil para métricas e processos;
 não é necessário fornecer OPENAI_API_KEY. Comandos simples passam primeiro
 pelo roteador local e pelas skills documentados no fim deste arquivo.
+
+
+## Memória técnica e versionamento
+
+Versão estável de referência: `v0.2-phase2`. São 142 testes aprovados e oito
+comandos validados no Windows real. O repositório está na branch `main`, apenas
+localmente; a criação do GitHub privado `max-assistant` aguarda confirmação.
+
+- [Estado comprovado e limitações](CURRENT_STATE.md)
+- [Arquitetura implementada](ARCHITECTURE.md)
+- [Decisões técnicas](DECISIONS.md)
+- [Plano por fases e Issues futuras](ROADMAP.md)
+- [Pendências de publicação e desenvolvimento](TODO.md)
+- [Histórico de entregas](CHANGELOG.md)
+
+O .gitignore protege .env, autenticação, credenciais, chaves, ambientes, caches,
+bancos e logs. O exemplo .env.example permanece sem credenciais. Ignorar arquivos
+não remove segredos já rastreados: revisar também o histórico antes de publicar.
+Os relatórios reais incluem caminhos e metadados locais e devem permanecer privados.
+
+Antes de qualquer push: executar a suíte, revisar segredos nos arquivos e no
+histórico, conferir `git diff --check`, `git diff --cached`, `git status` e a URL
+do remote. Não usar force push. A tag local e os commits não comprovam publicação.
 
 ## Iniciar
 
@@ -203,8 +226,8 @@ após todas as verificações passarem, em phase1-validation.json.
 
 ## Próxima etapa
 
-A implementação da fase dois está descrita abaixo. A próxima fase funcional será
-a fase três, após a validação real das ações nativas em um ambiente que as permita.
+A fase dois e sua validação real no Windows estão concluídas. O próximo marco
+funcional planejado é a fase três; esta organização do Git não inicia sua implementação.
 
 ## Fase dois: comandos locais antes do cérebro
 
@@ -429,11 +452,11 @@ regressões da fase um, intents, skills, prova de zero chamadas aos providers no
 comandos locais, benchmark e pendências da validação real do Windows. O fallback
 live usa falha sintética do Codex e resposta real do Ollama, sem matar processos.
 
-Nenhum comando desse validador abre ou fecha apps, abre pastas, muda foco ou altera
-áudio no Windows. Essas operações são exercitadas por doubles e mocks. A validação
-real fica registrada como pendente, sem ser marcada como aprovada por simulação.
-Fora do sandbox, use o terminal para conferir os comandos de aceitação, confirmando
-um fechamento somente de uma janela de teste sem trabalho importante.
+Nenhum comando desse validador da fase dois abre ou fecha apps, abre pastas, muda
+foco ou altera áudio no Windows. Essas operações usam doubles e mocks nesse roteiro.
+A pendência histórica de validação real foi resolvida depois, na fase 2.1,
+com roteiro separado e evidências em real-windows-validation.json. A aprovação
+real não foi inferida dos mocks.
 
 ### Próximos passos da fase três
 

@@ -83,11 +83,25 @@ de teste somente para a Calculadora. O primeiro restaura o áudio anterior.
 
 ## Git e escopo
 
-Repositório Git inicializado apenas nesta pasta, sem remoto. O commit solicitado
-usa autoria técnica MAX <max@localhost>, exclusivamente nessa operação, pois não
-havia identidade configurada. Nenhuma configuração global do Git foi alterada.
-O hash exato da entrega deve ser consultado por git rev-parse HEAD e é informado
-na resposta da validação; não é inserido no próprio arquivo para evitar autorreferência.
+Organização técnica revisada em 2026-10-21. Branch main, sem remote e sem
+push. Sugestão: repositório GitHub privado max-assistant, cuja criação depende
+de confirmação explícita do usuário. Nenhuma conta ou URL foi presumida.
 
-Nenhuma fase posterior foi iniciada. Voz, wake word, novas skills, Spotify API e
-Modo Jogo não foram implementados.
+A referência estável é v0.2-phase2: fases 1/2 e validação 2.1, com 142 testes
+novamente aprovados durante a organização do Git. A tag local não comprova push.
+O primeiro commit consolidado da validação é b39bfaa2e3446abf2a2c6b65c01289e23443df44.
+
+O .gitignore foi ampliado e verificado com 40 casos de arquivos protegidos ou
+permitidos. A revisão do histórico não encontrou padrões de segredos; isso não
+substitui nova revisão antes de publicar. Os relatórios contêm metadados da
+máquina, portanto o destino proposto é privado. Nenhum arquivo de autenticação
+do Codex foi lido ou copiado nesta organização.
+
+Autoria técnica MAX <max@localhost>, limitada aos commits desta tarefa; nenhuma
+configuração global do Git foi alterada. Consultar os hashes com git log e a tag
+com git show v0.2-phase2. Não incluir o hash do próprio commit neste documento.
+
+README, ROADMAP, TODO, ARCHITECTURE, DECISIONS e CHANGELOG complementam este
+estado. As seis Issues das fases futuras estão planejadas, ainda não criadas.
+Nenhuma funcionalidade foi alterada nesta organização. Voz, wake word, novas
+skills, Spotify API e Modo Jogo continuam sem implementação.
