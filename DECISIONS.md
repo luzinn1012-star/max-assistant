@@ -68,3 +68,34 @@ após a suíte passar e as evidências da fase 2.1 serem verificadas.
 Esta entrega organiza apenas Git e documentação. Nenhuma nova skill, voz,
 integração, memória persistente ou Modo Jogo é implementado. Mudanças funcionais
 futuras devem referenciar uma Issue e trazer testes proporcionais ao risco.
+
+## D011 — Contratos explícitos sem substituir integrações validadas
+
+Formalizar WindowsAdapter e AudioDevice como Protocols e injetá-los nas skills.
+Preservar WindowsBackend/Core Audio, aliases Intent/Answer e códigos de erro
+anteriores. Adotar IntentResult, SkillResult e ProviderResult tipados com
+validação onde o dado entra no contrato. Consequência: doubles pequenos e
+checagem estática sem reimplementar ações de Windows.
+
+## D012 — Capabilities antes de preparar e executar
+
+Separar capability e nível de risco. A política padrão só permite operações
+necessárias às skills/providers atuais; terminate, escrita e energia ficam
+negados. Revalidar após confirmação. Negação é final para a solicitação,
+sem fallback para outro transporte. Capabilities não são um sandbox para
+plugins Python arbitrários e não acrescentam novas operações de sistema.
+
+## D013 — Correlação sem guardar texto livre
+
+Gerar request_id por solicitação com ContextVar, incluindo tentativas e
+fallback. Registrar apenas códigos seguros e parâmetros canônicos já validados.
+Manter contextos conversacionais separados por sessão; a correlação não promete
+thread safety de uma instância compartilhada do Assistant.
+
+## D014 — Checks reproduzíveis antes de novas features
+
+Usar Ruff, mypy, pytest-cov e pre-commit com versões fixadas e workflow Windows
+3.12/3.13. Cobertura mínima combinada de 80%, incluindo módulos nativos mesmo
+quando não completamente cobertos. Preservar o inventário dos 142 testes.
+Benchmarks com doubles indicam seu escopo e não são apresentados como tempos
+reais de apps ou LLMs. A fase 3 continua não iniciada.

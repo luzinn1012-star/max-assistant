@@ -1,8 +1,11 @@
-from dataclasses import dataclass, field
 import time
+from dataclasses import dataclass
+
+from core.capabilities import CapabilityPolicy
+from core.errors import ConfirmationRequired, PermissionDenied
 from core.intent import Intent
 from core.normalizer import normalize
-from core.permissions import Permissions, RiskLevel
+from core.permissions import Permissions
 from core.router import Router
 from skills.base import SkillError, SkillResult
 
@@ -19,7 +22,10 @@ class Dispatch:
 
 
 class Dispatcher:
-    def __init__(self, settings, registry):
+    def __init__(self, settings, registry, capability_policy=None):
+        self.capability_policy = (
+            capability_policy if capability_policy is not None else CapabilityPolicy()
+        )
         self.settings = settings
         self.registry = registry
         self.router = Router(registry)
@@ -32,14 +38,21 @@ class Dispatcher:
         route_start = time.perf_counter()
         state, pending = self.permissions.consume(normalized)
         intent = pending.intent if pending else self.router.route(normalized)
-        output = Dispatch(normalized, intent, {
-            "normalization_ms": norm_ms,
-            "routing_ms": (time.perf_counter() - route_start) * 1000,
-            "skill_ms": 0.0,
-        })
+        output = Dispatch(
+            normalized,
+            intent,
+            {
+                "normalization_ms": norm_ms,
+                "routing_ms": (time.perf_counter() - route_start) * 1000,
+                "skill_ms": 0.0,
+            },
+        )
         if state in {"cancelled", "absent", "expired"}:
-            message = {"cancelled": "Ação cancelada.", "absent": "Não há ação aguardando confirmação.",
-                       "expired": "A confirmação expirou. Peça a ação novamente."}[state]
+            message = {
+                "cancelled": "Ação cancelada.",
+                "absent": "Não há ação aguardando confirmação.",
+                "expired": "A confirmação expirou. Peça a ação novamente.",
+            }[state]
             output.result = SkillResult(message, status=state)
             output.skill = "permissions"
             output.risk = "SAFE"
@@ -55,18 +68,30 @@ class Dispatcher:
         try:
             skill.validate(intent)
             if output.risk == "DANGEROUS":
-                raise SkillError("dangerous_not_implemented", "Essa ação não está disponível nesta fase.")
+                raise PermissionDenied(
+                    "dangerous_not_implemented", "Essa ação não está disponível nesta fase."
+                )
+            self.capability_policy.require(skill.capabilities_for(intent))
             prepared = pending.prepared if pending else skill.prepare(intent)
             if output.risk == "CONFIRM" and state != "confirmed":
                 self.permissions.request(skill, intent, prepared)
-                output.result = SkillResult(skill.confirmation_prompt(intent), status="confirmation_required")
-                output.confirmation = True
+                raise ConfirmationRequired(
+                    "confirmation_required", skill.confirmation_prompt(intent)
+                )
             else:
                 output.result = skill.execute(intent, prepared)
+        except ConfirmationRequired as exc:
+            output.result = SkillResult(str(exc), status=exc.code)
+            output.confirmation = True
         except SkillError as exc:
-            output.result = SkillResult(str(exc), False, exc.code)
+            output.result = SkillResult(str(exc), False, exc.code, error=exc.code)
         except (OSError, RuntimeError, ValueError) as exc:
-            output.result = SkillResult("Não consegui concluir a ação local.", False, type(exc).__name__)
+            output.result = SkillResult(
+                "Não consegui concluir a ação local.",
+                False,
+                type(exc).__name__,
+                error=type(exc).__name__,
+            )
         finally:
             output.timings["skill_ms"] = (time.perf_counter() - skill_start) * 1000
         return output

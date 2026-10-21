@@ -1,8 +1,7 @@
-from dataclasses import replace
 import io
-import json
 import logging
 import unittest
+from dataclasses import replace
 from unittest.mock import patch
 
 from config import ConfigError, Settings
@@ -22,7 +21,9 @@ class IntegrationTests(unittest.TestCase):
         self.ollama = SpyBrain("ollama")
         self.settings = Settings()
         self.registry = build_registry(self.settings, self.backend, lambda: self.audio)
-        self.assistant = Assistant(self.settings, {"codex": self.codex, "ollama": self.ollama}, self.registry)
+        self.assistant = Assistant(
+            self.settings, {"codex": self.codex, "ollama": self.ollama}, self.registry
+        )
 
     def assert_no_brain(self):
         self.assertEqual(self.codex.ask_calls, [])
@@ -102,7 +103,9 @@ class IntegrationTests(unittest.TestCase):
         self.assert_no_brain()
 
     def test_skill_error_does_not_fall_through_to_brain(self):
-        with patch.object(self.backend, "launch", side_effect=SkillError("missing", "Não instalado.")):
+        with patch.object(
+            self.backend, "launch", side_effect=SkillError("missing", "Não instalado.")
+        ):
             reply = self.assistant.ask("abra spotify")
         self.assertFalse(reply.success)
         self.assertEqual(reply.status, "missing")
@@ -118,7 +121,9 @@ class IntegrationTests(unittest.TestCase):
 
     def test_timings_have_required_stages(self):
         reply = self.assistant.ask("volume 30")
-        self.assertEqual(set(reply.timings), {"normalization_ms", "routing_ms", "skill_ms", "total_ms"})
+        self.assertEqual(
+            set(reply.timings), {"normalization_ms", "routing_ms", "skill_ms", "total_ms"}
+        )
         self.assertTrue(all(value >= 0 for value in reply.timings.values()))
         self.assertAlmostEqual(reply.elapsed_seconds * 1000, reply.timings["total_ms"])
 
@@ -207,6 +212,7 @@ class ExtraSkill(Skill):
 class RegistryPermissionsTests(unittest.TestCase):
     def build(self, extra):
         from skills.registry import SkillRegistry
+
         registry = SkillRegistry()
         registry.register(extra)
         codex, ollama = SpyBrain("codex"), SpyBrain("ollama")
@@ -243,8 +249,11 @@ class AuditAndConfigTests(unittest.TestCase):
         self.backend = FakeWindows()
         self.audio = FakeAudio()
         self.settings = Settings()
-        self.assistant = Assistant(self.settings, {"codex": SpyBrain("codex"), "ollama": SpyBrain("ollama")},
-                                   build_registry(self.settings, self.backend, lambda: self.audio))
+        self.assistant = Assistant(
+            self.settings,
+            {"codex": SpyBrain("codex"), "ollama": SpyBrain("ollama")},
+            build_registry(self.settings, self.backend, lambda: self.audio),
+        )
         self.stream = io.StringIO()
         self.handler = logging.StreamHandler(self.stream)
         self.logger = logging.getLogger("max")
@@ -272,14 +281,24 @@ class AuditAndConfigTests(unittest.TestCase):
         self.assertNotIn("Infinity", self.stream.getvalue())
 
     def test_settings_validation(self):
-        for kwargs in ({"router_threshold": 0}, {"router_threshold": 1.1},
-                       {"router_threshold": float("nan")}, {"volume_step": True},
-                       {"volume_step": 0}, {"confirmation_timeout": 0}, {"launch_verify_timeout": -1}):
+        for kwargs in (
+            {"router_threshold": 0},
+            {"router_threshold": 1.1},
+            {"router_threshold": float("nan")},
+            {"volume_step": True},
+            {"volume_step": 0},
+            {"confirmation_timeout": 0},
+            {"launch_verify_timeout": -1},
+        ):
             with self.subTest(kwargs=kwargs), self.assertRaises(ConfigError):
                 Settings(**kwargs)
 
     def test_custom_volume_increment(self):
-        registry = build_registry(replace(self.settings, volume_step=7), self.backend, lambda: self.audio)
-        assistant = Assistant(self.settings, {"codex": SpyBrain("codex"), "ollama": SpyBrain("ollama")}, registry)
+        registry = build_registry(
+            replace(self.settings, volume_step=7), self.backend, lambda: self.audio
+        )
+        assistant = Assistant(
+            self.settings, {"codex": SpyBrain("codex"), "ollama": SpyBrain("ollama")}, registry
+        )
         assistant.ask("aumenta o volume")
         self.assertEqual(self.audio.volume, 57)

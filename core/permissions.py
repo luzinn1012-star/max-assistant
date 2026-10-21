@@ -1,7 +1,16 @@
-"""Confirmações ligadas a uma ação e a um snapshot, válidas apenas na sessão."""
+"""Confirmations bound to an action, snapshot and current session."""
+
+from __future__ import annotations
+
+import time
 from dataclasses import dataclass
 from enum import StrEnum
-import time
+from typing import TYPE_CHECKING, Any
+
+from core.intent import IntentResult
+
+if TYPE_CHECKING:
+    from skills.base import Skill
 
 
 class RiskLevel(StrEnum):
@@ -12,9 +21,9 @@ class RiskLevel(StrEnum):
 
 @dataclass
 class PendingAction:
-    skill: object
-    intent: object
-    prepared: dict
+    skill: Skill
+    intent: IntentResult
+    prepared: dict[str, Any]
     deadline: float
 
 
@@ -22,16 +31,16 @@ class Permissions:
     YES = {"sim", "confirmo", "confirmar", "pode fechar"}
     NO = {"nao", "cancelar", "cancela", "nao feche"}
 
-    def __init__(self, ttl: float):
+    def __init__(self, ttl: float) -> None:
         self.ttl = ttl
-        self.pending = None
+        self.pending: PendingAction | None = None
 
-    def request(self, skill, intent, prepared):
+    def request(self, skill: Skill, intent: IntentResult, prepared: dict[str, Any]) -> None:
         self.pending = PendingAction(skill, intent, prepared, time.monotonic() + self.ttl)
 
-    def consume(self, text):
+    def consume(self, text: str) -> tuple[str, PendingAction | None]:
         pending = self.pending
-        self.pending = None  # Outra mensagem também invalida a confirmação antiga.
+        self.pending = None
         if text in self.NO:
             return "cancelled", None
         if text in self.YES:

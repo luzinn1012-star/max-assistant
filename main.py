@@ -1,26 +1,39 @@
 """MAX: terminal da fase dois. Inicie com .venv\\Scripts\\python.exe main.py."""
+
 from __future__ import annotations
 
 import argparse
-from dataclasses import asdict, replace
 import json
-from pathlib import Path
 import sys
+from dataclasses import asdict, replace
+from pathlib import Path
 
 from brain.codex_provider import CodexProvider
 from brain.ollama_provider import OllamaProvider
 from brain.provider import ProviderError
-from config import ConfigError, ROOT, load_settings
+from config import ROOT, ConfigError, load_settings
 from core.assistant import Assistant, Reply
 from core.logging_setup import setup_logging
 
 
 def parser() -> argparse.ArgumentParser:
-    result = argparse.ArgumentParser(description="MAX: assistente pessoal em português do Brasil, fase dois.")
+    result = argparse.ArgumentParser(
+        description="MAX: assistente pessoal em português do Brasil, fase dois."
+    )
     result.add_argument("--ask", metavar="TEXTO", help="Faz uma pergunta e encerra.")
-    result.add_argument("--provider", choices=("auto", "codex", "ollama"), help="auto usa Codex com fallback; os demais isolam um provider.")
-    result.add_argument("--health", action="store_true", help="Verifica CLI, login e modelo local, sem gerar resposta.")
-    result.add_argument("--json", action="store_true", help="Saída estruturada para --ask ou --health.")
+    result.add_argument(
+        "--provider",
+        choices=("auto", "codex", "ollama"),
+        help="auto usa Codex com fallback; os demais isolam um provider.",
+    )
+    result.add_argument(
+        "--health",
+        action="store_true",
+        help="Verifica CLI, login e modelo local, sem gerar resposta.",
+    )
+    result.add_argument(
+        "--json", action="store_true", help="Saída estruturada para --ask ou --health."
+    )
     result.add_argument("--config", type=Path, help="Caminho de configuração JSON.")
     return result
 
@@ -39,20 +52,31 @@ def display(reply: Reply, structured: bool = False) -> None:
 def show_status(assistant: Assistant, structured: bool = False) -> bool:
     statuses = assistant.status()
     if structured:
-        print(json.dumps({"active_provider": assistant.active_provider,
-                          "selection": assistant.settings.provider,
-                          "providers": [asdict(status) for status in statuses]}, ensure_ascii=False))
+        print(
+            json.dumps(
+                {
+                    "active_provider": assistant.active_provider,
+                    "selection": assistant.settings.provider,
+                    "providers": [asdict(status) for status in statuses],
+                },
+                ensure_ascii=False,
+            )
+        )
     else:
-        print(f"Seleção: {assistant.settings.provider}. Último provider usado: {assistant.active_provider or 'nenhum'}.")
+        print(
+            f"Seleção: {assistant.settings.provider}. Último provider usado: {assistant.active_provider or 'nenhum'}."
+        )
         for status in statuses:
-            print(f"{status.provider}: {'disponível' if status.ok else 'indisponível'}; {status.detail}")
+            print(
+                f"{status.provider}: {'disponível' if status.ok else 'indisponível'}; {status.detail}"
+            )
     if assistant.settings.provider == "auto":
         return any(status.ok for status in statuses)
     return any(status.ok and status.provider == assistant.settings.provider for status in statuses)
 
 
 def main(argv: list[str] | None = None) -> int:
-    if sys.version_info < (3, 12):
+    if sys.version_info < (3, 12):  # noqa: UP036 - friendly error before invoking unsupported Python
         print("O MAX requer Python 3.12 ou superior.", file=sys.stderr)
         return 2
     for stream in (sys.stdout, sys.stderr):
@@ -67,7 +91,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.provider:
             settings = replace(settings, provider=args.provider)
         setup_logging(ROOT / "logs")
-        assistant = Assistant(settings, {"codex": CodexProvider(settings), "ollama": OllamaProvider(settings)})
+        assistant = Assistant(
+            settings, {"codex": CodexProvider(settings), "ollama": OllamaProvider(settings)}
+        )
         if args.health:
             return 0 if show_status(assistant, args.json) else 1
         if args.ask is not None:
@@ -102,8 +128,16 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"Max: {exc}", file=sys.stderr)
     except (ConfigError, ProviderError, ValueError) as exc:
         if args.json:
-            print(json.dumps({"ok": False, "error": getattr(exc, "code", "configuration_or_input"),
-                              "message": str(exc)}, ensure_ascii=False))
+            print(
+                json.dumps(
+                    {
+                        "ok": False,
+                        "error": getattr(exc, "code", "configuration_or_input"),
+                        "message": str(exc),
+                    },
+                    ensure_ascii=False,
+                )
+            )
         else:
             print(f"MAX: {exc}", file=sys.stderr)
         return 1
@@ -111,7 +145,10 @@ def main(argv: list[str] | None = None) -> int:
         print("MAX: Operação cancelada.", file=sys.stderr)
         return 130
     except OSError:
-        print("MAX: Não consegui acessar os arquivos locais do projeto. Verifique as permissões.", file=sys.stderr)
+        print(
+            "MAX: Não consegui acessar os arquivos locais do projeto. Verifique as permissões.",
+            file=sys.stderr,
+        )
         return 1
 
 

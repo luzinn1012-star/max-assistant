@@ -1,11 +1,14 @@
-from dataclasses import dataclass, field
 import json
-from pathlib import Path
 import re
+from dataclasses import dataclass, field
+from pathlib import Path
 
+from automation.contracts import WindowsAdapter
+from core.capabilities import Capability
+from core.errors import AppNotFound
 from core.intent import Intent, Rule
 from core.permissions import RiskLevel
-from skills.base import Skill, SkillError, SkillResult
+from skills.base import Skill, SkillResult
 from skills.registry import alias_index
 
 
@@ -21,7 +24,7 @@ class AppSpec:
     allow_close: bool = False
 
 
-def load_apps(path: Path):
+def load_apps(path: Path) -> dict[str, AppSpec]:
     try:
         raw = json.loads(path.read_text(encoding="utf-8-sig"))
         if not isinstance(raw, list):
@@ -31,12 +34,20 @@ def load_apps(path: Path):
             spec = AppSpec(**entry)
             if not re.fullmatch(r"[a-z][a-z0-9_]*", spec.id) or spec.id in result:
                 raise ValueError()
-            if not isinstance(spec.label, str) or not spec.label or type(spec.allow_close) is not bool:
+            if (
+                not isinstance(spec.label, str)
+                or not spec.label
+                or type(spec.allow_close) is not bool
+            ):
                 raise ValueError()
             for values in (spec.aliases, spec.process_names, spec.executables, spec.arguments):
-                if not isinstance(values, list) or any(not isinstance(v, str) or not v for v in values):
+                if not isinstance(values, list) or any(
+                    not isinstance(v, str) or not v for v in values
+                ):
                     raise ValueError()
-            if not isinstance(spec.uri, str) or any("/" in name or "\\" in name for name in spec.process_names):
+            if not isinstance(spec.uri, str) or any(
+                "/" in name or "\\" in name for name in spec.process_names
+            ):
                 raise ValueError()
             result[spec.id] = spec
         return result
@@ -50,19 +61,29 @@ class AppsSkill(Skill):
     intents = ("open_app", "close_app")
     requires_confirmation = {"open_app": False, "close_app": True}
 
-    def __init__(self, backend, apps):
+    required_capabilities = {
+        "open_app": frozenset({Capability.APP_LAUNCH, Capability.PROCESS_INSPECT}),
+        "close_app": frozenset({Capability.APP_CLOSE, Capability.PROCESS_INSPECT}),
+    }
+
+    def __init__(self, backend: WindowsAdapter, apps: dict[str, AppSpec]) -> None:
         self.backend = backend
         self.apps = apps
         self.aliases = {key: spec.aliases for key, spec in apps.items()}
         self.index = alias_index(self.aliases)
         self.rules = (
-            Rule(r"(?:abre|abra|abrir)(?: o| a)? (?P<app>.+)", lambda m: self._match(m, "open_app")),
-            Rule(r"(?:fecha|feche|fechar)(?: o| a)? (?P<app>.+)", lambda m: self._match(m, "close_app")),
+            Rule(
+                r"(?:abre|abra|abrir)(?: o| a)? (?P<app>.+)", lambda m: self._match(m, "open_app")
+            ),
+            Rule(
+                r"(?:fecha|feche|fechar)(?: o| a)? (?P<app>.+)",
+                lambda m: self._match(m, "close_app"),
+            ),
         )
 
     def _match(self, match, intent):
         app = self.index.get(match["app"])
-        return Intent(intent, .99, {"app": app}) if app else Intent(intent, .25)
+        return Intent(intent, 0.99, {"app": app}) if app else Intent(intent, 0.25)
 
     def risk_for_name(self, name):
         return RiskLevel.CONFIRM if name == "close_app" else RiskLevel.SAFE
@@ -73,7 +94,7 @@ class AppsSkill(Skill):
     def validate(self, intent):
         super().validate(intent)
         if intent.slots.get("app") not in self.apps:
-            raise SkillError("unknown_app", "Esse aplicativo não está cadastrado.")
+            raise AppNotFound("unknown_app", "Esse aplicativo não está cadastrado.")
 
     def prepare(self, intent):
         super().prepare(intent)
@@ -90,15 +111,36 @@ class AppsSkill(Skill):
         spec = self.apps[prepared["app"]]
         if intent.intent == "close_app":
             count = self.backend.request_close(spec, prepared["windows"])
-            return SkillResult(f"Solicitei o fechamento de {spec.label}. Um aviso de salvamento ou a bandeja pode manter o app aberto.",
-                               status="close_requested", data={"windows_notified": count})
+            return SkillResult(
+                f"Solicitei o fechamento de {spec.label}. Um aviso de salvamento ou a bandeja pode manter o app aberto.",
+                status="close_requested",
+                data={"windows_notified": count},
+            )
         windows = self.backend.windows(spec)
         if windows:
             focused = self.backend.focus(windows[0])
             text = f"{spec.label} já estava aberto."
-            text += " Trouxe a janela para frente." if focused else " O Windows não permitiu mudar o foco."
-            return SkillResult(text, data={"app": spec.id, "state": "already_running", "focused": focused, "verified": True})
+            text += (
+                " Trouxe a janela para frente."
+                if focused
+                else " O Windows não permitiu mudar o foco."
+            )
+            return SkillResult(
+                text,
+                data={
+                    "app": spec.id,
+                    "state": "already_running",
+                    "focused": focused,
+                    "verified": True,
+                },
+            )
         method = self.backend.launch(spec)
         state = self.backend.observe_launch(spec)
-        text = f"{spec.label} está em execução." if state["verified"] else f"Solicitei a abertura de {spec.label}."
-        return SkillResult(text, status=state["state"], data={"app": spec.id, "method": method, **state})
+        text = (
+            f"{spec.label} está em execução."
+            if state["verified"]
+            else f"Solicitei a abertura de {spec.label}."
+        )
+        return SkillResult(
+            text, status=state["state"], data={"app": spec.id, "method": method, **state}
+        )

@@ -1,4 +1,4 @@
-# MAX — fase dois validada no Windows
+# MAX — fase 2.5: hardening
 
 Assistente pessoal para Windows, em português do Brasil, com terminal, conversa,
 provider Codex autenticado pelo ChatGPT e fallback local para Ollama.
@@ -9,8 +9,9 @@ pelo roteador local e pelas skills documentados no fim deste arquivo.
 
 ## Memória técnica e versionamento
 
-Versão estável de referência: `v0.2-phase2`. São 142 testes aprovados e oito
-comandos validados no Windows real. O repositório privado está em
+Versão estável de referência: `v0.2-phase2`. O marco anterior tem 142 testes
+e oito comandos validados no Windows real; a main agora inclui o hardening
+2.5 com 195 testes, descrito no fim deste documento. O repositório privado está em
 [GitHub: luzinn1012-star/max-assistant](https://github.com/luzinn1012-star/max-assistant).
 A branch `main` acompanha `origin/main`; o histórico e a tag estável foram enviados
 com push normal, sem force. A tag permanece no commit estável, mesmo quando novos
@@ -182,10 +183,10 @@ max-assistant/
     logging_setup.py
   tests/
     __init__.py
-    test_assistant.py
-    test_codex.py
-    test_ollama.py
-    test_config.py
+    unit/                   normalização, router, skills, config e CLI
+    integration/            Assistant, fallback, capabilities e confirmações
+    providers/              Codex e Ollama com doubles
+    windows/                adaptadores nativos com mocks
     live_smoke.py            teste real opt-in
   data/
     README.md
@@ -476,3 +477,70 @@ Codex, fallback real para Ollama e os cento e quarenta e dois testes aprovados.
 A limitação de troca de foco de Discord e Spotify foi registrada explicitamente.
 Os roteiros de validação não adicionam novas skills e não são executados pela
 suíte unitária padrão.
+
+## Fase 2.5: ferramentas de qualidade
+
+A main inclui hardening do núcleo, sem novas skills. São 195 testes e 87 subtestes;
+os 142 testes anteriores foram preservados e reexecutados separadamente.
+O relatório [phase2-hardening-validation.json](phase2-hardening-validation.json)
+registra checks, cobertura, inventário legado e benchmark. A tag v0.2-phase2
+permanece no marco estável anterior; não foi movida.
+
+Instale as ferramentas de desenvolvimento na venv, sem mudar as dependências
+mínimas de execução:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pre_commit install
+.\.venv\Scripts\python.exe -m scripts.validate_hardening
+```
+
+O validador roda pip check, Ruff lint/formatação, mypy, pre-commit e pytest-cov.
+Também verifica os 142 métodos de teste originais pelo inventário versionado.
+Os hooks usam scripts/dev.py para localizar a venv mesmo em um git commit sem
+ativação do ambiente. Se a venv não existir, usam o Python atual.
+
+```powershell
+.\.venv\Scripts\python.exe -m ruff check .
+.\.venv\Scripts\python.exe -m ruff format --check .
+.\.venv\Scripts\python.exe -m mypy
+.\.venv\Scripts\python.exe -m pytest --cov --cov-report=term-missing
+.\.venv\Scripts\python.exe -m pytest -m unit
+.\.venv\Scripts\python.exe -m pytest -m integration
+.\.venv\Scripts\python.exe -m pytest -m windows
+.\.venv\Scripts\python.exe -m pytest -m providers
+.\.venv\Scripts\python.exe -m benchmarks.local --samples 5000 --warmup 200
+```
+
+Os grupos são diretórios e markers: unit, integration, windows e providers.
+Os testes windows usam mocks das APIs nativas; não abrem apps nem mudam áudio.
+Os validadores reais antigos continuam opt-in, fora da descoberta padrão.
+unittest discover continua exercitando os 142 testes de classe anteriores;
+pytest inclui também os novos testes de função e parametrizações.
+
+A cobertura inclui main, config, core, brain, skills e automation, com ramificações.
+O mínimo exigido é 80% combinado; a medição local foi 83.98%, ou 85.58% de linhas.
+Não foram excluídos os adaptadores nativos para melhorar artificialmente a métrica.
+As partes de Win32/COM não exercitadas seguem visíveis no relatório de cobertura.
+
+mypy verifica todos os módulos de produção e os scripts/benchmarks. Contratos,
+erros, intents e capabilities exigem assinaturas completas; os demais módulos
+também têm seus corpos verificados, sem ignorar erros globalmente. A tipagem é
+incremental, não uma declaração de strict em todo código legado.
+
+O benchmark usa doubles, aquecimento e perf_counter_ns; retorna média, mediana,
+p95, mínimo e máximo. O logging de saída é desativado para a medição e essa
+condição é registrada. Não representa latência de disco, áudio, interface real
+ou providers, e não consome a assinatura ChatGPT.
+
+GitHub Actions está configurado em .github/workflows/quality.yml para Windows
+com Python 3.12 e 3.13, em push para main e pull requests. Executa Ruff, mypy
+e pytest-cov sem login Codex, Ollama ou segredos. As actions oficiais estão
+fixadas por SHA e recebem apenas contents: read. O resultado remoto deve ser
+conferido na aba Actions; o relatório local não presume sucesso no GitHub.
+
+Referências de configuração:
+[Ruff](https://docs.astral.sh/ruff/configuration/),
+[mypy](https://mypy.readthedocs.io/en/stable/config_file.html),
+[pytest-cov](https://pytest-cov.readthedocs.io/en/stable/config.html),
+[pre-commit](https://pre-commit.com/).

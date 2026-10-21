@@ -1,6 +1,34 @@
 # CURRENT_STATE: MAX
 
-## FASE 2.1: Validação real do Windows
+## FASE 2.5: hardening do núcleo
+
+Estado local: concluído e validado, sem novas skills ou avanço para a fase 3.
+195 testes principais e 87 subtestes passaram; os 142 métodos originais foram
+preservados em unit/integration/windows/providers e reexecutados separadamente.
+
+Ruff lint/formatação, mypy (37 módulos), pip check e todos os hooks pre-commit
+passaram. Cobertura de linhas: 85.58%; combinada com ramificações: 83.98%.
+O gate mínimo combinado é 80%, incluindo os módulos nativos.
+
+Foram formalizados os contratos WindowsAdapter/AudioDevice, IntentResult,
+SkillResult e ProviderResult; aliases antigos permanecem compatíveis.
+Erros específicos, capabilities e request_id estão integrados. Abrir/fechar,
+áudio, pastas e status preservam o comportamento anterior. Fechamento continua
+exigindo confirmação; não há kill forçado.
+
+phase2-hardening-validation.json é o relatório desta etapa.
+O benchmark usa 5000 amostras, 200 de aquecimento e doubles: mediana do fluxo
+local de aproximadamente 0.05 ms, sem LLM e sem medir abertura real de janelas.
+Logging de saída foi desativado para a medição e isso consta no relatório.
+
+O workflow .github/workflows/quality.yml está configurado para Windows/Python
+3.12 e 3.13. Checks locais aprovados não equivalem a uma execução remota:
+o resultado na aba Actions deve ser conferido após o push.
+Nenhuma ação real do Windows ou inferência live foi repetida nesta fase.
+A evidência real anterior continua preservada abaixo.
+A tag estável v0.2-phase2 permanece no commit anterior e não foi movida.
+
+## Histórico: FASE 2.1, validação real do Windows
 
 Estado: validação real concluída. Nenhuma nova skill ou funcionalidade foi adicionada.
 Os adaptadores de produção funcionaram sem necessidade de correções.

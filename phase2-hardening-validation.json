@@ -1,0 +1,197 @@
+{
+  "phase": "2.5",
+  "timestamp_utc": "2026-10-21T15:51:00.121179+00:00",
+  "python": "3.12.10",
+  "platform": "Windows",
+  "checks": {
+    "dependencies": {
+      "command": [
+        "python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "duration_seconds": 0.515750399999888
+    },
+    "ruff": {
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "."
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "duration_seconds": 0.08631440000044677
+    },
+    "format": {
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "."
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "duration_seconds": 0.08356129999992845
+    },
+    "type_check": {
+      "command": [
+        "python",
+        "-m",
+        "mypy"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "duration_seconds": 0.35670870000012656
+    },
+    "pre_commit": {
+      "command": [
+        "python",
+        "-m",
+        "pre_commit",
+        "run",
+        "--all-files"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "duration_seconds": 4.267332700000225
+    },
+    "pytest": {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "--cov",
+        "--cov-report=term-missing",
+        "--cov-report=json",
+        "--cov-report=xml",
+        "--junitxml=data/hardening-tests.xml",
+        "-q"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "duration_seconds": 2.813610399999561,
+      "test_counts": {
+        "passed": 195,
+        "subtests_passed": 87
+      }
+    }
+  },
+  "tests": {
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "junit_cases": 282,
+    "passed": 195,
+    "subtests_passed": 87,
+    "count": 195
+  },
+  "legacy_tests": {
+    "count": 142,
+    "original_methods_preserved": 142,
+    "passed": true,
+    "failures": 0,
+    "errors": 0
+  },
+  "coverage": {
+    "line_percent": 85.58368495077356,
+    "combined_line_branch_percent": 83.984375,
+    "covered_lines": 1217,
+    "statements": 1422,
+    "covered_branches": 288,
+    "branches": 370,
+    "minimum_combined_percent": 80
+  },
+  "tools": {
+    "ruff": "0.17.1",
+    "mypy": "2.4.0",
+    "pytest": "9.1.1",
+    "pytest-cov": "7.1.0",
+    "pre-commit": "4.7.0"
+  },
+  "benchmark": {
+    "timestamp_utc": "2026-10-21T15:51:00.488235+00:00",
+    "execution": "test_doubles",
+    "python": "3.12.10",
+    "platform": "Windows",
+    "samples": 5000,
+    "warmup": 200,
+    "clock": "perf_counter_ns",
+    "logging": "disabled for measurement",
+    "metrics": {
+      "normalizer": {
+        "min_ms": 0.0071,
+        "median_ms": 0.0073,
+        "mean_ms": 0.00731138,
+        "p95_ms": 0.0074,
+        "max_ms": 0.0411
+      },
+      "router": {
+        "min_ms": 0.0071,
+        "median_ms": 0.0073,
+        "mean_ms": 0.00738898,
+        "p95_ms": 0.0075,
+        "max_ms": 0.0169
+      },
+      "local_dispatch": {
+        "min_ms": 0.0459,
+        "median_ms": 0.0478,
+        "mean_ms": 0.04857982,
+        "p95_ms": 0.0512,
+        "max_ms": 0.779
+      }
+    },
+    "local_provider_calls": 0,
+    "real_windows_launch_measured": false,
+    "real_provider_latency_measured": false
+  },
+  "windows_validation": {
+    "execution": "adapters_and_mocks",
+    "real_actions_executed": false,
+    "prior_real_evidence": "real-windows-validation.json"
+  },
+  "providers": {
+    "live_inference_executed": false,
+    "fallback": "covered by preserved and new tests"
+  },
+  "ci": {
+    "workflow": ".github/workflows/quality.yml",
+    "platform": "windows-latest",
+    "python": [
+      "3.12",
+      "3.13"
+    ],
+    "remote_execution": "not measured by this local validator"
+  },
+  "pre_commit_hook_installed": true,
+  "test_groups": [
+    "unit",
+    "integration",
+    "windows",
+    "providers"
+  ],
+  "result_contracts": [
+    "IntentResult",
+    "SkillResult",
+    "ProviderResult"
+  ],
+  "errors": [
+    "ProviderUnavailable",
+    "SkillExecutionError",
+    "PermissionDenied",
+    "ConfirmationRequired",
+    "AppNotFound",
+    "InvalidParameter"
+  ],
+  "scope": {
+    "new_skills": false,
+    "phase3_started": false
+  },
+  "passed": true
+}

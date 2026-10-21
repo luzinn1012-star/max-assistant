@@ -33,3 +33,23 @@ testes, revisão de segredos e git diff antes de qualquer novo push.
 
 Voz, wake word, Modo Jogo, memória persistente, tray e startup continuam fora do
 escopo atual. A suíte padrão usa doubles/mocks; não substitui a validação real.
+
+## Fase 2.5 — hardening local concluído
+
+- [x] Ruff e formatação verificados, com configuração versionada.
+- [x] mypy sem erros; contratos novos com assinaturas completas.
+- [x] pytest-cov com cobertura de linhas e ramificações, mínimo combinado de 80%.
+- [x] pre-commit configurado, instalado neste checkout e executado integralmente.
+- [x] Grupos unit/integration/windows/providers e 142 métodos originais preservados.
+- [x] Protocols para os adaptadores nativos, sem subprocessos nas skills.
+- [x] IntentResult, SkillResult, ProviderResult e erros específicos integrados.
+- [x] Capabilities verificadas antes de preparar e executar ações.
+- [x] request_id e metadados de fallback/erro nos logs.
+- [x] Benchmark reproduzível, sem ações reais ou chamadas a LLM.
+- [x] Workflow GitHub Actions para Ruff, mypy e pytest em Windows.
+- [x] Relatório phase2-hardening-validation.json gerado com checks aprovados.
+- [ ] Conferir a execução remota do workflow após o push da fase 2.5.
+
+A suíte tem 195 testes e 87 subtestes; cobertura local combinada de 83.98%.
+A fase 2.5 usou mocks/doubles. Nenhum novo teste de controle real do Windows
+ou inferência live foi executado; a evidência histórica 2.1 permanece preservada.

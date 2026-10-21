@@ -3,6 +3,15 @@
 Somente mudanças e validações comprovadas. As fases anteriores foram importadas
 no primeiro commit local consolidado; não há commits separados inventados.
 
+## Fase 2.5 — 2026-10-21 (main, sem mover a tag anterior)
+
+- Ruff, mypy, pytest-cov, pre-commit e ferramentas de desenvolvimento fixadas.
+- Grupos de testes reorganizados; 142 testes originais preservados.
+- Protocols de adapters, resultados e erros estruturados, capabilities e request_id.
+- 195 testes e 87 subtestes aprovados; cobertura combinada de 83.98%.
+- Benchmark reproduzível com doubles e workflow Windows 3.12/3.13.
+- Nenhuma nova skill, integração avançada, voz, wake word ou Modo Jogo.
+
 ## v0.2-phase2 — 2026-10-21
 
 Versão estável das fases 1/2, incluindo a validação real 2.1 e a organização

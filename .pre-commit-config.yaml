@@ -1,0 +1,25 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: Ruff lint
+        entry: python scripts/dev.py ruff check
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: Ruff format
+        entry: python scripts/dev.py ruff format --check
+        language: system
+        types: [python]
+      - id: mypy
+        name: mypy
+        entry: python scripts/dev.py mypy
+        language: system
+        pass_filenames: false
+        types: [python]
+      - id: pytest
+        name: pytest and coverage
+        entry: python scripts/dev.py pytest --cov --cov-report=term-missing --cov-report=json --cov-report=xml
+        language: system
+        pass_filenames: false
+        always_run: true

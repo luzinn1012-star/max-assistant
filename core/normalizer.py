@@ -1,10 +1,13 @@
 """Normalização conservadora; preserva sinais, percentuais e casas decimais."""
+
 import re
 import unicodedata
 
 
 def normalize(text: str) -> str:
-    text = "".join(c for c in unicodedata.normalize("NFKD", text.casefold()) if not unicodedata.combining(c))
+    text = "".join(
+        c for c in unicodedata.normalize("NFKD", text.casefold()) if not unicodedata.combining(c)
+    )
     text = re.sub(r"(?<=\d),(?=\d)", ".", text)
     text = re.sub(r"[,!?]", " ", text)
     text = re.sub(r"(?<!\d)\.|\.(?!\d)", " ", text)

@@ -1,4 +1,3 @@
-from dataclasses import replace
 import unittest
 
 from config import Settings
@@ -19,7 +18,12 @@ class NormalizerTests(unittest.TestCase):
         self.assertEqual(normalize("  Max,  abre o Spotify!  "), "abre o spotify")
 
     def test_optional_prefixes(self):
-        for text in ("Max abra Spotify", "Ei Max, abra Spotify", "Olá Max! abra Spotify", "Max por favor abra Spotify"):
+        for text in (
+            "Max abra Spotify",
+            "Ei Max, abra Spotify",
+            "Olá Max! abra Spotify",
+            "Max por favor abra Spotify",
+        ):
             with self.subTest(text=text):
                 self.assertEqual(normalize(text), "abra spotify")
 
@@ -50,7 +54,7 @@ class RouterTests(unittest.TestCase):
         intent = self.route("Max, abra o Spotify.")
         self.assertEqual(intent.intent, "open_app")
         self.assertEqual(intent.slots, {"app": "spotify"})
-        self.assertGreater(intent.confidence, .8)
+        self.assertGreater(intent.confidence, 0.8)
 
     def test_open_discord(self):
         self.assertEqual(self.route("abrir discord").slots, {"app": "discord"})
@@ -98,7 +102,7 @@ class RouterTests(unittest.TestCase):
 
     def test_unknown_app_does_not_invent_slot(self):
         intent = self.route("abra aplicativo misterioso")
-        self.assertLess(intent.confidence, .8)
+        self.assertLess(intent.confidence, 0.8)
         self.assertEqual(intent.slots, {})
 
     def test_generic_music_is_not_an_action(self):
@@ -107,33 +111,55 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(self.route("abra pasta Music").slots, {"folder": "music"})
 
     def test_no_partial_or_negative_commands(self):
-        for text in ("não abra spotify", "abra spotify e discord", "explique como abrir spotify", "abra spotify; fecha discord"):
+        for text in (
+            "não abra spotify",
+            "abra spotify e discord",
+            "explique como abrir spotify",
+            "abra spotify; fecha discord",
+        ):
             with self.subTest(text=text):
-                self.assertLess(self.route(text).confidence, .8)
+                self.assertLess(self.route(text).confidence, 0.8)
 
     def test_registered_app_aliases(self):
-        expected = {"disc": "discord", "calc": "calculator", "bloco de notas": "notepad",
-                    "explorador de arquivos": "explorer", "configurações": "settings", "navegador": "browser"}
+        expected = {
+            "disc": "discord",
+            "calc": "calculator",
+            "bloco de notas": "notepad",
+            "explorador de arquivos": "explorer",
+            "configurações": "settings",
+            "navegador": "browser",
+        }
         for alias, app in expected.items():
             with self.subTest(alias=alias):
                 self.assertEqual(self.route("abra " + alias).slots, {"app": app})
 
     def test_all_folder_names(self):
-        for alias, folder in {"Desktop": "desktop", "área de trabalho": "desktop", "Documents": "documents",
-                              "documentos": "documents", "Pictures": "pictures", "imagens": "pictures",
-                              "vídeos": "videos", "Videos": "videos", "músicas": "music"}.items():
+        for alias, folder in {
+            "Desktop": "desktop",
+            "área de trabalho": "desktop",
+            "Documents": "documents",
+            "documentos": "documents",
+            "Pictures": "pictures",
+            "imagens": "pictures",
+            "vídeos": "videos",
+            "Videos": "videos",
+            "músicas": "music",
+        }.items():
             with self.subTest(alias=alias):
                 self.assertEqual(self.route("abra " + alias).slots, {"folder": folder})
 
     def test_conflicting_rules_do_not_choose_an_arbitrary_action(self):
         from skills.base import Skill, SkillResult
+
         class ConflictingSkill(Skill):
             name = "conflict"
             description = "Teste"
             intents = ("other_intent",)
-            rules = (Rule("abra spotify", lambda m: Intent("other_intent", .99)),)
+            rules = (Rule("abra spotify", lambda m: Intent("other_intent", 0.99)),)
+
             def execute(self, intent, prepared):
                 return SkillResult("Nunca chamado.")
+
         self.registry.register(ConflictingSkill())
         self.assertEqual(self.route("abra spotify").intent, "unknown")
 

@@ -1,7 +1,7 @@
 import json
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import threading
 import unittest
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from unittest.mock import patch
 from urllib.error import URLError
 
@@ -50,9 +50,15 @@ class OllamaTests(unittest.TestCase):
     def setUp(self):
         Handler.code = 200
         Handler.payloads = []
-        Handler.body = {"model": "qwen3:4b", "message": {"role": "assistant", "content": "Meu nome é Max."},
-                        "done": True, "done_reason": "stop"}
-        self.provider = OllamaProvider(Settings(ollama_url=f"http://127.0.0.1:{self.server.server_port}"))
+        Handler.body = {
+            "model": "qwen3:4b",
+            "message": {"role": "assistant", "content": "Meu nome é Max."},
+            "done": True,
+            "done_reason": "stop",
+        }
+        self.provider = OllamaProvider(
+            Settings(ollama_url=f"http://127.0.0.1:{self.server.server_port}")
+        )
 
     def test_real_local_http_request_and_utf8(self):
         answer = self.provider.ask([Message("user", "Qual é o seu nome?")])
@@ -102,8 +108,10 @@ class OllamaTests(unittest.TestCase):
                 self.provider.ask([Message("user", "Olá")])
 
     def test_internal_channel_is_never_returned(self):
-        for text in ("<think>INTERNAL_TEST</think>Meu nome é Max.",
-                     "INTERNAL_TEST</think>\nMeu nome é Max."):
+        for text in (
+            "<think>INTERNAL_TEST</think>Meu nome é Max.",
+            "INTERNAL_TEST</think>\nMeu nome é Max.",
+        ):
             Handler.body["message"]["content"] = text
             answer = self.provider.ask([Message("user", "Olá")])
             self.assertEqual(answer.text, "Meu nome é Max.")
@@ -116,5 +124,11 @@ class OllamaTests(unittest.TestCase):
 
     def test_redirect_does_not_send_prompt_to_another_server(self):
         from urllib.request import Request
+
         from brain.ollama_provider import NoRedirect
-        self.assertIsNone(NoRedirect().redirect_request(Request("http://localhost"), None, 302, "", {}, "https://example.com"))
+
+        self.assertIsNone(
+            NoRedirect().redirect_request(
+                Request("http://localhost"), None, 302, "", {}, "https://example.com"
+            )
+        )

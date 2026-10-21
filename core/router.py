@@ -1,5 +1,7 @@
 """Regras vêm das skills registradas. Nenhum provider é consultado aqui."""
+
 import re
+
 from core.intent import Intent
 
 
@@ -11,7 +13,11 @@ class Router:
 
     def route(self, normalized: str) -> Intent:
         if self._revision != self.registry.revision:
-            self.rules = [(re.compile(rule.pattern), rule.resolve) for skill in self.registry.skills for rule in skill.rules]
+            self.rules = [
+                (re.compile(rule.pattern), rule.resolve)
+                for skill in self.registry.skills
+                for rule in skill.rules
+            ]
             self._revision = self.registry.revision
         candidates = []
         for pattern, resolve in self.rules:

@@ -1,8 +1,10 @@
 """Doubles sem chamadas a Win32, áudio real, shell ou rede."""
+
 from pathlib import Path
+
+from automation.windows import WindowsBackend
 from brain.provider import Answer, BrainProvider, Health, ProviderError
 from skills.base import SkillError
-from automation.windows import WindowsBackend
 
 
 class SpyBrain(BrainProvider):
@@ -70,17 +72,20 @@ class FakeWindows:
         return "uri" if spec.uri else "executable"
 
     def observe_launch(self, spec):
-        return {"state": "running" if self.launch_verified else "launch_requested", "verified": self.launch_verified}
+        return {
+            "state": "running" if self.launch_verified else "launch_requested",
+            "verified": self.launch_verified,
+        }
 
     def prepare_close(self, spec):
-        WindowsBackend.prepare_close_policy(self, spec)
+        WindowsBackend().prepare_close_policy(spec)
         windows = self.windows(spec)
         if not windows:
             raise SkillError("no_window", "Nenhuma janela de teste.")
         return windows
 
     def request_close(self, spec, windows):
-        WindowsBackend.prepare_close_policy(self, spec)
+        WindowsBackend().prepare_close_policy(spec)
         if windows != self.snapshot:
             raise SkillError("target_changed", "A janela mudou.")
         self.calls.append(("close", spec.id))
@@ -97,8 +102,14 @@ class FakeWindows:
     def system_status(self):
         self.calls.append(("system_status",))
         return {
-            "cpu_percent": 18.0, "ram_used_gib": 9.2, "ram_total_gib": 16.0,
-            "disk_free_gib": 120.0, "disk_total_gib": 500.0, "drive": "X:",
-            "uptime_seconds": 7200, "top_processes": [{"name": "teste.exe", "cpu_percent": 5.0, "ram_mib": 100}],
-            "gpu": None, "gpu_reason": "double",
+            "cpu_percent": 18.0,
+            "ram_used_gib": 9.2,
+            "ram_total_gib": 16.0,
+            "disk_free_gib": 120.0,
+            "disk_total_gib": 500.0,
+            "drive": "X:",
+            "uptime_seconds": 7200,
+            "top_processes": [{"name": "teste.exe", "cpu_percent": 5.0, "ram_mib": 100}],
+            "gpu": None,
+            "gpu_reason": "double",
         }

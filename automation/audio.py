@@ -1,13 +1,19 @@
 """Core Audio do Windows via COM/ctypes, sem teclado ou interface gráfica."""
+
 import ctypes as C
 import os
 import uuid
+
 from skills.base import SkillError
 
 
 class GUID(C.Structure):
-    _fields_ = [("Data1", C.c_uint32), ("Data2", C.c_uint16),
-                ("Data3", C.c_uint16), ("Data4", C.c_ubyte * 8)]
+    _fields_ = [
+        ("Data1", C.c_uint32),
+        ("Data2", C.c_uint16),
+        ("Data3", C.c_uint16),
+        ("Data4", C.c_ubyte * 8),
+    ]
 
     @classmethod
     def parse(cls, text):
@@ -46,17 +52,34 @@ class AudioEndpoint:
             enumerator = C.c_void_p()
             clsid = GUID.parse("BCDE0395-E52F-467C-8E3D-C4579291692E")
             iid = GUID.parse("A95664D2-9614-4F35-A746-DE8DB63617E6")
-            self.ole.CoCreateInstance.argtypes = [C.POINTER(GUID), C.c_void_p, C.c_uint32, C.POINTER(GUID), C.POINTER(C.c_void_p)]
+            self.ole.CoCreateInstance.argtypes = [
+                C.POINTER(GUID),
+                C.c_void_p,
+                C.c_uint32,
+                C.POINTER(GUID),
+                C.POINTER(C.c_void_p),
+            ]
             self.ole.CoCreateInstance.restype = C.c_long
-            check(self.ole.CoCreateInstance(C.byref(clsid), None, 23, C.byref(iid), C.byref(enumerator)))
+            check(
+                self.ole.CoCreateInstance(
+                    C.byref(clsid), None, 23, C.byref(iid), C.byref(enumerator)
+                )
+            )
             self.pointers.append(enumerator)
             device = C.c_void_p()
             call(enumerator, 4, [C.c_int, C.c_int, C.POINTER(C.c_void_p)], 0, 1, C.byref(device))
             self.pointers.append(device)
             endpoint = C.c_void_p()
             endpoint_iid = GUID.parse("5CDF2C82-841E-4546-9722-0CF74078229A")
-            call(device, 3, [C.POINTER(GUID), C.c_uint32, C.c_void_p, C.POINTER(C.c_void_p)],
-                 C.byref(endpoint_iid), 23, None, C.byref(endpoint))
+            call(
+                device,
+                3,
+                [C.POINTER(GUID), C.c_uint32, C.c_void_p, C.POINTER(C.c_void_p)],
+                C.byref(endpoint_iid),
+                23,
+                None,
+                C.byref(endpoint),
+            )
             self.pointers.append(endpoint)
             self.endpoint = endpoint
             return self

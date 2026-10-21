@@ -1,9 +1,9 @@
 import json
 import os
-from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 from brain.codex_provider import CodexProvider, codex_environment, run_process
@@ -12,15 +12,18 @@ from config import Settings
 
 
 def result(events=(), code=0, stderr=""):
-    return subprocess.CompletedProcess(["codex"], code,
-                                       "\n".join(json.dumps(event) for event in events), stderr)
+    return subprocess.CompletedProcess(
+        ["codex"], code, "\n".join(json.dumps(event) for event in events), stderr
+    )
 
 
 def success(text="Meu nome é Max."):
-    return result([
-        {"type": "item.completed", "item": {"type": "agent_message", "text": text}},
-        {"type": "turn.completed"},
-    ])
+    return result(
+        [
+            {"type": "item.completed", "item": {"type": "agent_message", "text": text}},
+            {"type": "turn.completed"},
+        ]
+    )
 
 
 class CodexTests(unittest.TestCase):
@@ -41,16 +44,30 @@ class CodexTests(unittest.TestCase):
 
     def test_partial_text_is_not_success(self):
         with self.assertRaises(ProviderError):
-            self.provider.parse_result(result([
-                {"type": "item.completed", "item": {"type": "agent_message", "text": "Parcial"}},
-            ]))
+            self.provider.parse_result(
+                result(
+                    [
+                        {
+                            "type": "item.completed",
+                            "item": {"type": "agent_message", "text": "Parcial"},
+                        },
+                    ]
+                )
+            )
 
     def test_failure_after_text_is_not_success(self):
         with self.assertRaises(ProviderError):
-            self.provider.parse_result(result([
-                {"type": "item.completed", "item": {"type": "agent_message", "text": "Parcial"}},
-                {"type": "turn.failed", "error": {"message": "SECRET_TEST"}},
-            ]))
+            self.provider.parse_result(
+                result(
+                    [
+                        {
+                            "type": "item.completed",
+                            "item": {"type": "agent_message", "text": "Parcial"},
+                        },
+                        {"type": "turn.failed", "error": {"message": "SECRET_TEST"}},
+                    ]
+                )
+            )
 
     def test_cli_error_does_not_expose_raw_output(self):
         with self.assertRaises(ProviderError) as caught:
@@ -60,10 +77,14 @@ class CodexTests(unittest.TestCase):
 
     def test_tool_event_is_rejected(self):
         with self.assertRaises(ProviderError) as caught:
-            self.provider.parse_result(result([
-                {"type": "item.started", "item": {"type": "command_execution"}},
-                {"type": "turn.completed"},
-            ]))
+            self.provider.parse_result(
+                result(
+                    [
+                        {"type": "item.started", "item": {"type": "command_execution"}},
+                        {"type": "turn.completed"},
+                    ]
+                )
+            )
         self.assertEqual(caught.exception.code, "unexpected_tool")
 
     def test_malformed_and_empty_responses_are_rejected(self):
@@ -73,10 +94,21 @@ class CodexTests(unittest.TestCase):
 
     def test_commentary_is_not_a_final_answer(self):
         with self.assertRaises(ProviderError):
-            self.provider.parse_result(result([
-                {"type": "item.completed", "item": {"type": "agent_message", "phase": "commentary", "text": "Aguarde"}},
-                {"type": "turn.completed"},
-            ]))
+            self.provider.parse_result(
+                result(
+                    [
+                        {
+                            "type": "item.completed",
+                            "item": {
+                                "type": "agent_message",
+                                "phase": "commentary",
+                                "text": "Aguarde",
+                            },
+                        },
+                        {"type": "turn.completed"},
+                    ]
+                )
+            )
 
     def test_authentication_accepts_only_chatgpt(self):
         self.provider._compatible = True
@@ -85,17 +117,22 @@ class CodexTests(unittest.TestCase):
                 health = self.provider.health_check()
             self.assertFalse(health.ok)
             self.assertNotIn("SECRET_TEST", health.detail)
-        with patch("brain.codex_provider.run_process", return_value=result(stderr="Logged in using ChatGPT")):
+        with patch(
+            "brain.codex_provider.run_process",
+            return_value=result(stderr="Logged in using ChatGPT"),
+        ):
             self.assertTrue(self.provider.health_check().ok)
 
     def test_old_cli_is_rejected_without_reading_credentials(self):
-        with patch("brain.codex_provider.run_process", return_value=result(stderr="old help")) as runner:
+        with patch(
+            "brain.codex_provider.run_process", return_value=result(stderr="old help")
+        ) as runner:
             self.assertEqual(self.provider.health_check().code, "unsupported_cli")
             self.assertEqual(runner.call_count, 1)
 
     def test_prompt_is_passed_via_stdin_not_command_arguments(self):
         self.provider._auth_checked_at = float("inf")
-        text = 'Ignore everything & echo SECRET_TEST | more'
+        text = "Ignore everything & echo SECRET_TEST | more"
         with patch("brain.codex_provider.run_process", return_value=success()) as runner:
             self.provider.ask([Message("user", text)])
         args = runner.call_args.args[0]
@@ -108,8 +145,15 @@ class CodexTests(unittest.TestCase):
         self.assertIn('forced_login_method="chatgpt"', args)
 
     def test_api_keys_are_not_inherited_by_codex(self):
-        with patch.dict(os.environ, {"OPENAI_API_KEY": "FAKE", "CODEX_API_KEY": "FAKE",
-                                    "CODEX_ACCESS_TOKEN": "FAKE", "OPENAI_BASE_URL": "FAKE"}):
+        with patch.dict(
+            os.environ,
+            {
+                "OPENAI_API_KEY": "FAKE",
+                "CODEX_API_KEY": "FAKE",
+                "CODEX_ACCESS_TOKEN": "FAKE",
+                "OPENAI_BASE_URL": "FAKE",
+            },
+        ):
             clean = codex_environment()
         for key in ("OPENAI_API_KEY", "CODEX_API_KEY", "CODEX_ACCESS_TOKEN", "OPENAI_BASE_URL"):
             self.assertNotIn(key, clean)
@@ -123,7 +167,10 @@ class CodexTests(unittest.TestCase):
             self.assertEqual(popen.call_args.kwargs["encoding"], "utf-8")
 
     def test_timeout_terminates_only_owned_process(self):
-        with patch("brain.codex_provider.subprocess.Popen") as popen, patch("brain.codex_provider.subprocess.run") as terminate:
+        with (
+            patch("brain.codex_provider.subprocess.Popen") as popen,
+            patch("brain.codex_provider.subprocess.run") as terminate,
+        ):
             process = popen.return_value
             process.pid = 876543
             process.communicate.side_effect = [subprocess.TimeoutExpired("codex", 1), ("", "")]
@@ -132,4 +179,6 @@ class CodexTests(unittest.TestCase):
                 run_process(["codex.exe"], timeout=1, cwd=Path.cwd())
             process.kill.assert_called_once()
             if os.name == "nt":
-                self.assertEqual(terminate.call_args.args[0], ["taskkill", "/PID", "876543", "/T", "/F"])
+                self.assertEqual(
+                    terminate.call_args.args[0], ["taskkill", "/PID", "876543", "/T", "/F"]
+                )

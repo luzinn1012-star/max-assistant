@@ -1,4 +1,5 @@
 """Configuração simples do MAX; nenhuma credencial é necessária."""
+
 from __future__ import annotations
 
 import json
@@ -37,8 +38,11 @@ class Settings:
     launch_verify_timeout: float = 2.0
 
     def __post_init__(self) -> None:
-        if (type(self.router_threshold) not in (int, float) or not math.isfinite(self.router_threshold)
-                or not 0 < self.router_threshold <= 1):
+        if (
+            type(self.router_threshold) not in (int, float)
+            or not math.isfinite(self.router_threshold)
+            or not 0 < self.router_threshold <= 1
+        ):
             raise ConfigError("router_threshold deve estar entre zero (exclusivo) e um.")
         if type(self.volume_step) is not int or not 1 <= self.volume_step <= 100:
             raise ConfigError("volume_step deve ser um inteiro entre 1 e 100.")
@@ -54,16 +58,40 @@ class Settings:
             port = url.port
         except ValueError as exc:
             raise ConfigError("Endereço do Ollama inválido.") from exc
-        if (url.scheme != "http" or url.hostname not in {"127.0.0.1", "localhost", "::1"}
-                or url.username or url.password or url.query or url.fragment
-                or url.path not in {"", "/"} or port == 0):
+        if (
+            url.scheme != "http"
+            or url.hostname not in {"127.0.0.1", "localhost", "::1"}
+            or url.username
+            or url.password
+            or url.query
+            or url.fragment
+            or url.path not in {"", "/"}
+            or port == 0
+        ):
             raise ConfigError("O Ollama deve usar HTTP local, sem credenciais ou caminho.")
-        for name in ("codex_timeout", "ollama_timeout", "health_timeout", "retry_cooldown", "confirmation_timeout", "launch_verify_timeout"):
+        for name in (
+            "codex_timeout",
+            "ollama_timeout",
+            "health_timeout",
+            "retry_cooldown",
+            "confirmation_timeout",
+            "launch_verify_timeout",
+        ):
             value = getattr(self, name)
-            if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
+            if (
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or not math.isfinite(value)
+                or value <= 0
+            ):
                 raise ConfigError(f"{name} deve ser um número positivo e finito.")
-        for name in ("history_turns", "context_chars", "max_input_chars",
-                     "ollama_context_tokens", "ollama_max_tokens"):
+        for name in (
+            "history_turns",
+            "context_chars",
+            "max_input_chars",
+            "ollama_context_tokens",
+            "ollama_max_tokens",
+        ):
             value = getattr(self, name)
             if type(value) is not int or value <= 0:
                 raise ConfigError(f"{name} deve ser um inteiro positivo.")
@@ -87,8 +115,12 @@ def load_settings(path: Path | None = None) -> Settings:
         if unknown:
             raise ConfigError("Há campos desconhecidos na configuração.")
     # .env não é carregado. Somente estas variáveis opcionais são reconhecidas.
-    for key, name in {"MAX_PROVIDER": "provider", "MAX_OLLAMA_URL": "ollama_url",
-                      "MAX_OLLAMA_MODEL": "ollama_model", "MAX_CODEX_MODEL": "codex_model"}.items():
+    for key, name in {
+        "MAX_PROVIDER": "provider",
+        "MAX_OLLAMA_URL": "ollama_url",
+        "MAX_OLLAMA_MODEL": "ollama_model",
+        "MAX_CODEX_MODEL": "codex_model",
+    }.items():
         if key in os.environ:
             values[name] = os.environ[key]
     return Settings(**values)

@@ -1,9 +1,14 @@
-"""Contrato comum; falhas só carregam códigos e mensagens seguros para exibir."""
+"""Common contracts; credentials never belong to provider results."""
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Literal, Sequence
+from typing import Literal
+
+from core.errors import InvalidParameter
+from core.errors import ProviderError as ProviderError
 
 Role = Literal["user", "assistant"]
 
@@ -23,17 +28,17 @@ class Health:
 
 
 @dataclass(frozen=True)
-class Answer:
+class ProviderResult:
     text: str
     provider: str
     model: str
 
+    def __post_init__(self) -> None:
+        if not all(isinstance(value, str) for value in (self.text, self.provider, self.model)):
+            raise InvalidParameter("invalid_provider_result", "Resposta de provider inválida.")
 
-class ProviderError(RuntimeError):
-    def __init__(self, provider: str, code: str, message: str):
-        super().__init__(message)
-        self.provider = provider
-        self.code = code
+
+Answer = ProviderResult
 
 
 class BrainProvider(ABC):
@@ -41,12 +46,11 @@ class BrainProvider(ABC):
 
     @abstractmethod
     def health_check(self) -> Health:
-        """Checagem local/leve; disponibilidade não garante inferência."""
         raise NotImplementedError
 
     def available(self) -> bool:
         return self.health_check().ok
 
     @abstractmethod
-    def ask(self, messages: Sequence[Message]) -> Answer:
+    def ask(self, messages: Sequence[Message]) -> ProviderResult:
         raise NotImplementedError
