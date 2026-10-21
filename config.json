@@ -1,0 +1,20 @@
+{
+  "provider": "auto",
+  "ollama_url": "http://127.0.0.1:11434",
+  "ollama_model": "qwen3:4b",
+  "codex_model": "",
+  "codex_timeout": 30,
+  "ollama_timeout": 90,
+  "health_timeout": 5,
+  "retry_cooldown": 60,
+  "history_turns": 6,
+  "context_chars": 12000,
+  "max_input_chars": 6000,
+  "ollama_context_tokens": 4096,
+  "ollama_max_tokens": 768,
+  "ollama_keep_alive": "10m",
+  "router_threshold": 0.8,
+  "volume_step": 10,
+  "confirmation_timeout": 30,
+  "launch_verify_timeout": 2
+}

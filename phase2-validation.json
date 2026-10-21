@@ -1,0 +1,703 @@
+{
+  "timestamp_utc": "2026-10-21T14:38:13.009621+00:00",
+  "scope": "phase_2",
+  "implementation_status": "integrated",
+  "unit_tests": {
+    "count": 142,
+    "passed": true,
+    "phase1_regressions": {
+      "count": 38,
+      "passed": true,
+      "failures": [],
+      "errors": [],
+      "skipped": [],
+      "duration_seconds": 0.6528628999999455
+    },
+    "phase2": {
+      "count": 104,
+      "passed": true,
+      "failures": [],
+      "errors": [],
+      "skipped": [],
+      "duration_seconds": 0.1303715999997621
+    }
+  },
+  "phase1_test_files_sha256": {
+    "tests/test_assistant.py": "956931e5bad2ae7300008fd6131469742eefe425b6f459bd9ffe68ae3bcf994a",
+    "tests/test_codex.py": "aceadda43271be4089fa0e85aec2aff13d715db24fedd1f3e497eb62dce8df2e",
+    "tests/test_config.py": "f18aab174dddfd15d0618ad866a89785bd7ef9c2359d22cd49180af3093bff6b",
+    "tests/test_ollama.py": "187920e60dbb54a5c74d89f3e47c14b457f228a315423d8c9151771f4cc5594f"
+  },
+  "intents": [
+    "close_app",
+    "help",
+    "mute_volume",
+    "open_app",
+    "open_folder",
+    "set_volume",
+    "system_status",
+    "unknown",
+    "unmute_volume"
+  ],
+  "skills": [
+    {
+      "name": "apps",
+      "description": "Abre aplicativos cadastrados; pede confirmação para fechar janelas normalmente.",
+      "intents": [
+        "open_app",
+        "close_app"
+      ],
+      "aliases": {
+        "spotify": [
+          "spotify",
+          "música",
+          "music"
+        ],
+        "discord": [
+          "discord",
+          "disc"
+        ],
+        "calculator": [
+          "calculadora",
+          "calc"
+        ],
+        "notepad": [
+          "bloco de notas",
+          "notepad"
+        ],
+        "explorer": [
+          "explorador",
+          "arquivos",
+          "explorador de arquivos"
+        ],
+        "settings": [
+          "configurações",
+          "settings",
+          "configurações do windows"
+        ],
+        "browser": [
+          "navegador",
+          "browser"
+        ]
+      },
+      "risk_level": {
+        "open_app": "SAFE",
+        "close_app": "CONFIRM"
+      },
+      "requires_confirmation": {
+        "open_app": false,
+        "close_app": true
+      }
+    },
+    {
+      "name": "folders",
+      "description": "Abre pastas conhecidas do usuário, inclusive redirecionadas.",
+      "intents": [
+        "open_folder"
+      ],
+      "aliases": {
+        "desktop": [
+          "área de trabalho",
+          "area de trabalho"
+        ],
+        "downloads": [
+          "download"
+        ],
+        "documents": [
+          "documentos",
+          "documents"
+        ],
+        "pictures": [
+          "imagens",
+          "fotos",
+          "pictures"
+        ],
+        "videos": [
+          "vídeos",
+          "videos"
+        ],
+        "music": [
+          "músicas",
+          "musicas",
+          "music",
+          "música",
+          "musica"
+        ]
+      },
+      "risk_level": "SAFE",
+      "requires_confirmation": false
+    },
+    {
+      "name": "volume",
+      "description": "Volume e mute do dispositivo de saída padrão do Windows.",
+      "intents": [
+        "set_volume",
+        "mute_volume",
+        "unmute_volume"
+      ],
+      "aliases": {
+        "mute_volume": [
+          "mute",
+          "muta o pc"
+        ],
+        "unmute_volume": [
+          "unmute",
+          "tira do mudo"
+        ]
+      },
+      "risk_level": "SAFE",
+      "requires_confirmation": false
+    },
+    {
+      "name": "system",
+      "description": "Consulta CPU, RAM, disco, processos e tempo ligado.",
+      "intents": [
+        "system_status"
+      ],
+      "aliases": {
+        "system_status": [
+          "como está o pc",
+          "status do sistema"
+        ]
+      },
+      "risk_level": "SAFE",
+      "requires_confirmation": false
+    },
+    {
+      "name": "help",
+      "description": "Mostra comandos locais disponíveis.",
+      "intents": [
+        "help"
+      ],
+      "aliases": {
+        "help": [
+          "ajuda",
+          "help",
+          "comandos"
+        ]
+      },
+      "risk_level": "SAFE",
+      "requires_confirmation": false
+    }
+  ],
+  "local_acceptance_test_doubles": [
+    {
+      "input": "Max, abra o Spotify.",
+      "wall_seconds": 9.470000031797099e-05,
+      "text": "Spotify está em execução.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 6.200000007083872e-05,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "open_app",
+      "confidence": 0.99,
+      "skill": "apps",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "running",
+      "timings": {
+        "normalization_ms": 0.009800000043469481,
+        "routing_ms": 0.03319999996165279,
+        "skill_ms": 0.011899999663000926,
+        "total_ms": 0.06200000007083872
+      },
+      "data": {
+        "app": "spotify",
+        "method": "uri",
+        "state": "running",
+        "verified": true
+      },
+      "execution": "test_double"
+    },
+    {
+      "input": "Max, abra o Discord.",
+      "wall_seconds": 5.409999994299142e-05,
+      "text": "Discord está em execução.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 3.530000003593159e-05,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "open_app",
+      "confidence": 0.99,
+      "skill": "apps",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "running",
+      "timings": {
+        "normalization_ms": 0.012700000297627412,
+        "routing_ms": 0.01250000013897079,
+        "skill_ms": 0.006600000233447645,
+        "total_ms": 0.03530000003593159
+      },
+      "data": {
+        "app": "discord",
+        "method": "uri",
+        "state": "running",
+        "verified": true
+      },
+      "execution": "test_double"
+    },
+    {
+      "input": "Max, abra Downloads.",
+      "wall_seconds": 0.00010689999999158317,
+      "text": "Solicitei a abertura da pasta.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 8.109999998850981e-05,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "open_folder",
+      "confidence": 0.99,
+      "skill": "folders",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "launch_requested",
+      "timings": {
+        "normalization_ms": 0.010000000202126103,
+        "routing_ms": 0.010199999906035373,
+        "skill_ms": 0.05650000002788147,
+        "total_ms": 0.08109999998850981
+      },
+      "data": {
+        "folder": "downloads",
+        "path": "C:\\Users\\user\\AppData\\Local\\Jarvis\\chat-workspace\\max-assistant\\tests"
+      },
+      "execution": "test_double"
+    },
+    {
+      "input": "Max, volume 30.",
+      "wall_seconds": 6.570000005012844e-05,
+      "text": "Volume em 30%.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 4.830000034417026e-05,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "set_volume",
+      "confidence": 0.99,
+      "skill": "volume",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.012999999853491317,
+        "routing_ms": 0.013700000181415817,
+        "skill_ms": 0.01740000016070553,
+        "total_ms": 0.04830000034417026
+      },
+      "data": {
+        "volume": 30.0,
+        "muted": false
+      },
+      "execution": "test_double"
+    },
+    {
+      "input": "Max, mute.",
+      "wall_seconds": 3.839999999399879e-05,
+      "text": "Áudio no mudo.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 2.429999995001708e-05,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "mute_volume",
+      "confidence": 0.99,
+      "skill": "volume",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.008900000011635711,
+        "routing_ms": 0.007099999947968172,
+        "skill_ms": 0.005200000032345997,
+        "total_ms": 0.02429999995001708
+      },
+      "data": {
+        "volume": 30.0,
+        "muted": true
+      },
+      "execution": "test_double"
+    },
+    {
+      "input": "Max, tira do mudo.",
+      "wall_seconds": 3.72999998035084e-05,
+      "text": "Áudio fora do mudo.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 2.3399999918183312e-05,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "unmute_volume",
+      "confidence": 0.99,
+      "skill": "volume",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.009399999726156238,
+        "routing_ms": 0.006799999937356915,
+        "skill_ms": 0.004500000159168849,
+        "total_ms": 0.023399999918183312
+      },
+      "data": {
+        "volume": 30.0,
+        "muted": false
+      },
+      "execution": "test_double"
+    },
+    {
+      "input": "Max, como está o PC?",
+      "wall_seconds": 5.199999986871262e-05,
+      "text": "CPU 18%, RAM 9,2 de 16,0 GiB, disco X: com 120 GiB livres.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 3.480000032141106e-05,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "system_status",
+      "confidence": 0.99,
+      "skill": "system",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.012200000128359534,
+        "routing_ms": 0.0073999999585794285,
+        "skill_ms": 0.011800000265793642,
+        "total_ms": 0.03480000032141106
+      },
+      "data": {
+        "cpu_percent": 18.0,
+        "ram_used_gib": 9.2,
+        "ram_total_gib": 16.0,
+        "disk_free_gib": 120.0,
+        "disk_total_gib": 500.0,
+        "drive": "X:",
+        "uptime_seconds": 7200,
+        "top_processes": [
+          {
+            "name": "teste.exe",
+            "cpu_percent": 5.0,
+            "ram_mib": 100
+          }
+        ],
+        "gpu": null,
+        "gpu_reason": "double"
+      },
+      "execution": "test_double"
+    },
+    {
+      "input": "ajuda",
+      "wall_seconds": 3.299999980299617e-05,
+      "text": "Posso abrir aplicativos e pastas, ajustar volume, ativar ou tirar o mudo e consultar o PC. Exemplos: abra Spotify; abra Downloads; volume 30; como está o PC. Para fechar um aplicativo, peço confirmação. Para conversar, escreva normalmente.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 1.920000022437307e-05,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "help",
+      "confidence": 1.0,
+      "skill": "help",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.006499999926745659,
+        "routing_ms": 0.006799999937356915,
+        "skill_ms": 0.0027999999474559445,
+        "total_ms": 0.01920000022437307
+      },
+      "data": {},
+      "execution": "test_double"
+    }
+  ],
+  "local_no_llm_proof": {
+    "passed": true,
+    "provider_calls": {
+      "codex": {
+        "ask": 0,
+        "health_check": 0
+      },
+      "ollama": {
+        "ask": 0,
+        "health_check": 0
+      }
+    }
+  },
+  "benchmark": {
+    "local": {
+      "input": "Max, abra a calculadora.",
+      "route": "local",
+      "provider": "local",
+      "execution": "test_double",
+      "windows_launch_verified": false,
+      "samples": 1000,
+      "median_ms": 0.03429999969739583,
+      "p95_ms": 0.04830000034417026,
+      "first_request_ms": 0.045000000227446435,
+      "stage_medians_ms": {
+        "normalization_ms": 0.009100000170292333,
+        "routing_ms": 0.007900000127847306,
+        "skill_ms": 0.0033999999686784577,
+        "total_ms": 0.022400000034394907
+      },
+      "note": "Mede normalização, router, permissões e skill com backend simulado; não mede o tempo real de abertura do Windows."
+    },
+    "codex": {
+      "input": "Explique o que é uma API em uma frase.",
+      "wall_seconds": 7.300840200000039,
+      "text": "Uma API é uma interface que permite que diferentes sistemas se comuniquem e troquem dados ou funcionalidades de forma padronizada.",
+      "provider": "codex",
+      "model": "padrão do Codex CLI",
+      "elapsed_seconds": 7.3007996000001185,
+      "fallback_used": false,
+      "notices": [],
+      "route": "brain",
+      "intent": "unknown",
+      "confidence": 0.0,
+      "skill": null,
+      "risk_level": null,
+      "llm_used": true,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.03309999965495081,
+        "routing_ms": 0.030199999855540227,
+        "skill_ms": 0.0,
+        "total_ms": 7300.7996000001185
+      },
+      "data": {},
+      "execution": "real_provider"
+    },
+    "ollama": {
+      "input": "Explique o que é uma API em uma frase.",
+      "wall_seconds": 23.48266280000007,
+      "text": "Uma API é uma interface de programação que permite que diferentes aplicações se comuniquem e troquem dados de forma estruturada.",
+      "provider": "ollama",
+      "model": "qwen3:4b",
+      "elapsed_seconds": 23.482622900000024,
+      "fallback_used": false,
+      "notices": [],
+      "route": "brain",
+      "intent": "unknown",
+      "confidence": 0.0,
+      "skill": null,
+      "risk_level": null,
+      "llm_used": true,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.013700000181415817,
+        "routing_ms": 0.02029999996011611,
+        "skill_ms": 0.0,
+        "total_ms": 23482.622900000024
+      },
+      "data": {},
+      "execution": "real_provider"
+    }
+  },
+  "brain_health": [
+    {
+      "provider": "codex",
+      "ok": true,
+      "detail": "Codex CLI autenticado pelo ChatGPT; inferência depende da conexão e dos limites da conta.",
+      "code": "ok"
+    },
+    {
+      "provider": "ollama",
+      "ok": true,
+      "detail": "Servidor local disponível; modelo qwen3:4b instalado.",
+      "code": "ok"
+    }
+  ],
+  "live_brain_checks": {
+    "executed": true,
+    "passed": true,
+    "relativity": {
+      "input": "Max, explique relatividade.",
+      "wall_seconds": 10.829453100000137,
+      "text": "A relatividade é a teoria de Einstein que explica como espaço, tempo e gravidade funcionam.\n\n- **Relatividade especial:** o espaço e o tempo medidos dependem do movimento do observador, mas a velocidade da luz no vácuo é sempre a mesma. Por isso, um relógio em movimento muito rápido marca menos tempo em relação a quem ficou parado.\n- **Relatividade geral:** massa e energia curvam o espaço-tempo, e essa curvatura determina o movimento dos corpos — é o que percebemos como gravidade.\n\nUm exemplo prático: os relógios dos satélites de GPS precisam de correções relativísticas para indicar sua posição com precisão.",
+      "provider": "codex",
+      "model": "padrão do Codex CLI",
+      "elapsed_seconds": 10.829411799999889,
+      "fallback_used": false,
+      "notices": [],
+      "route": "brain",
+      "intent": "unknown",
+      "confidence": 0.0,
+      "skill": null,
+      "risk_level": null,
+      "llm_used": true,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.03389999983482994,
+        "routing_ms": 0.02679999988686177,
+        "skill_ms": 0.0,
+        "total_ms": 10829.411799999889
+      },
+      "data": {},
+      "execution": "real_codex_conversation"
+    },
+    "fallback": {
+      "input": "Explique o que é uma API em uma frase.",
+      "wall_seconds": 10.196054600000025,
+      "text": "Uma API é um conjunto de regras que permite que diferentes aplicativos se comuniquem e troquem dados de forma estruturada.",
+      "provider": "ollama",
+      "model": "qwen3:4b",
+      "elapsed_seconds": 10.196011799999724,
+      "fallback_used": true,
+      "notices": [
+        "codex: Timeout de teste."
+      ],
+      "route": "brain",
+      "intent": "unknown",
+      "confidence": 0.0,
+      "skill": null,
+      "risk_level": null,
+      "llm_used": true,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.013899999885325087,
+        "routing_ms": 0.021500000002561137,
+        "skill_ms": 0.0,
+        "total_ms": 10196.011799999724
+      },
+      "data": {},
+      "execution": "simulated_codex_timeout_real_ollama"
+    }
+  },
+  "windows_actions": {
+    "executed": false,
+    "acceptance_complete": false,
+    "reason": "Controle real de aplicativos, pastas, foco, fechamento e volume reservado a validação fora do sandbox.",
+    "pending": [
+      "open_app e foco de janela",
+      "close_app e aviso de conteúdo não salvo",
+      "open_folder",
+      "set_volume",
+      "mute_volume",
+      "unmute_volume"
+    ]
+  },
+  "system_status_real": {
+    "input": "Max, como está o PC?",
+    "wall_seconds": 0.13189739999961603,
+    "text": "CPU 26%, RAM 11,3 de 15,9 GiB, disco C: com 140 GiB livres.",
+    "provider": "local",
+    "model": "",
+    "elapsed_seconds": 0.13185699999985445,
+    "fallback_used": false,
+    "notices": [],
+    "route": "local",
+    "intent": "system_status",
+    "confidence": 0.99,
+    "skill": "system",
+    "risk_level": "SAFE",
+    "llm_used": false,
+    "success": true,
+    "pending_confirmation": false,
+    "status": "completed",
+    "timings": {
+      "normalization_ms": 0.013600000329461182,
+      "routing_ms": 0.029099999665049836,
+      "skill_ms": 131.80349999993268,
+      "total_ms": 131.85699999985445
+    },
+    "data": {
+      "cpu_percent": 25.5,
+      "ram_used_gib": 11.344852447509766,
+      "ram_total_gib": 15.894073486328125,
+      "disk_free_gib": 139.728271484375,
+      "disk_total_gib": 445.95409774780273,
+      "drive": "C:",
+      "uptime_seconds": 2335,
+      "top_processes": [
+        {
+          "pid": 13648,
+          "name": "pythonw.exe",
+          "cpu_percent": 10.4,
+          "ram_mib": 987.0
+        },
+        {
+          "pid": 15100,
+          "name": "wallpaperui.exe",
+          "cpu_percent": 4.2,
+          "ram_mib": 202.2
+        },
+        {
+          "pid": 3520,
+          "name": "MsMpEng.exe",
+          "cpu_percent": 1.0,
+          "ram_mib": 368.0
+        }
+      ],
+      "gpu": null,
+      "gpu_reason": "Sem medição portátil confiável nesta fase."
+    },
+    "execution": "real_read_only_windows"
+  },
+  "software_checks_passed": true,
+  "fully_validated_on_windows": false,
+  "tests_executed": {
+    "baseline_modules": [
+      "tests.test_assistant",
+      "tests.test_codex",
+      "tests.test_config",
+      "tests.test_ollama"
+    ],
+    "phase2_modules": [
+      "tests.test_phase2_router",
+      "tests.test_phase2_skills",
+      "tests.test_phase2_integration",
+      "tests.test_phase2_windows"
+    ],
+    "validation_command": "python -B -m tests.validate_phase2 --live-brains --read-only-system",
+    "cli_checks": [
+      {
+        "command": "main.py --ask ajuda --json",
+        "passed": true,
+        "llm_used": false
+      },
+      {
+        "command": "main.py --ask \"volume alto\" --json",
+        "passed": true,
+        "expected_exit_code": 1,
+        "llm_used": false
+      }
+    ],
+    "dependency_check": "pip check: no broken requirements",
+    "syntax_check": "Python AST parsed for all project modules"
+  }
+}

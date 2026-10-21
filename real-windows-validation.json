@@ -1,0 +1,672 @@
+{
+  "phase": "2.1",
+  "started_utc": "2026-10-21T14:56:19.313663+00:00",
+  "execution": "real_windows_no_mocks",
+  "launch": {
+    "method": "run-max.cmd in a normal visible Windows console",
+    "launcher_pid": 19172,
+    "alive": true,
+    "python_children": [
+      19248,
+      19296
+    ],
+    "still_running_after_validation": true
+  },
+  "commands": [
+    {
+      "command_id": "calculator",
+      "input": "Max, abra a Calculadora.",
+      "exit_code": 0,
+      "wall_seconds": 1.1966465000000426,
+      "timestamp_utc": "2026-10-21T14:56:21.339871+00:00",
+      "ok": true,
+      "text": "Calculadora está em execução.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 0.7082325999999739,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "open_app",
+      "confidence": 0.99,
+      "skill": "apps",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "running",
+      "timings": {
+        "normalization_ms": 0.011099999937869143,
+        "routing_ms": 1.4837999997325824,
+        "skill_ms": 706.7243000001326,
+        "total_ms": 708.2325999999739
+      },
+      "data": {
+        "app": "calculator",
+        "method": "uri",
+        "state": "running",
+        "verified": true
+      },
+      "os_observation": {
+        "verified": true,
+        "running": true,
+        "visible_windows": [
+          {
+            "hwnd": 133954,
+            "pid": 18744,
+            "created": 1792594580.85287,
+            "visible": true
+          }
+        ],
+        "process_ids": [
+          18744
+        ]
+      },
+      "validated_success": true
+    },
+    {
+      "command_id": "discord",
+      "input": "Max, abra o Discord.",
+      "exit_code": 0,
+      "wall_seconds": 2.330545599999823,
+      "timestamp_utc": "2026-10-21T14:56:23.682579+00:00",
+      "ok": true,
+      "text": "Discord já estava aberto. O Windows não permitiu mudar o foco.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 0.013194399999974848,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "open_app",
+      "confidence": 0.99,
+      "skill": "apps",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.010299999757990008,
+        "routing_ms": 1.4191999998729443,
+        "skill_ms": 11.751699999877019,
+        "total_ms": 13.194399999974848
+      },
+      "data": {
+        "app": "discord",
+        "state": "already_running",
+        "focused": false,
+        "verified": true
+      },
+      "os_observation": {
+        "verified": true,
+        "running": true,
+        "visible_windows": [
+          {
+            "hwnd": 328332,
+            "pid": 10988,
+            "created": 1792591192.4840436,
+            "visible": true
+          }
+        ],
+        "process_ids": [
+          5940,
+          9800,
+          9976,
+          10988,
+          12532,
+          12872
+        ]
+      },
+      "validated_success": true
+    },
+    {
+      "command_id": "spotify",
+      "input": "Max, abra o Spotify.",
+      "exit_code": 0,
+      "wall_seconds": 0.30850379999992583,
+      "timestamp_utc": "2026-10-21T14:56:23.995881+00:00",
+      "ok": true,
+      "text": "Spotify já estava aberto. O Windows não permitiu mudar o foco.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 0.0132223000000522,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "open_app",
+      "confidence": 0.99,
+      "skill": "apps",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.011200000244571129,
+        "routing_ms": 1.4201999997567327,
+        "skill_ms": 11.776499999996304,
+        "total_ms": 13.2223000000522
+      },
+      "data": {
+        "app": "spotify",
+        "state": "already_running",
+        "focused": false,
+        "verified": true
+      },
+      "os_observation": {
+        "verified": true,
+        "running": true,
+        "visible_windows": [
+          {
+            "hwnd": 196626,
+            "pid": 15488,
+            "created": 1792591228.1684914,
+            "visible": true
+          }
+        ],
+        "process_ids": [
+          6832,
+          15488,
+          15508,
+          15748,
+          15772,
+          15964,
+          16828
+        ]
+      },
+      "validated_success": true
+    },
+    {
+      "command_id": "downloads",
+      "input": "Max, abra Downloads.",
+      "exit_code": 0,
+      "wall_seconds": 0.3733572999999524,
+      "timestamp_utc": "2026-10-21T14:56:24.373952+00:00",
+      "ok": true,
+      "text": "Solicitei a abertura da pasta.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 0.08450270000003002,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "open_folder",
+      "confidence": 0.99,
+      "skill": "folders",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "launch_requested",
+      "timings": {
+        "normalization_ms": 0.01049999991664663,
+        "routing_ms": 1.4469999996435945,
+        "skill_ms": 83.02869999988616,
+        "total_ms": 84.50270000003002
+      },
+      "data": {
+        "folder": "downloads",
+        "path": "C:\\Users\\user\\Downloads"
+      },
+      "os_observation": {
+        "matching_window_handles": [
+          134070
+        ],
+        "verified": true,
+        "dynamic_target": "C:\\Users\\user\\Downloads"
+      },
+      "validated_success": true
+    },
+    {
+      "command_id": "volume",
+      "input": "Max, volume 30.",
+      "exit_code": 0,
+      "wall_seconds": 0.2889595999999983,
+      "timestamp_utc": "2026-10-21T14:56:25.556865+00:00",
+      "ok": true,
+      "text": "Volume em 30%.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 0.009353700000247045,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "set_volume",
+      "confidence": 0.99,
+      "skill": "volume",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.010100000054080738,
+        "routing_ms": 1.4269999996940896,
+        "skill_ms": 7.901100000253791,
+        "total_ms": 9.353700000247045
+      },
+      "data": {
+        "volume": 30.0,
+        "muted": false
+      },
+      "os_observation": {
+        "verified": true,
+        "independent_endpoint_state": {
+          "volume": 30.0,
+          "muted": false
+        }
+      },
+      "validated_success": true
+    },
+    {
+      "command_id": "mute",
+      "input": "Max, mute.",
+      "exit_code": 0,
+      "wall_seconds": 0.29281459999992876,
+      "timestamp_utc": "2026-10-21T14:56:25.853285+00:00",
+      "ok": true,
+      "text": "Áudio no mudo.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 0.009825199999795586,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "mute_volume",
+      "confidence": 0.99,
+      "skill": "volume",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.008800000159681076,
+        "routing_ms": 1.4943000001039763,
+        "skill_ms": 8.306000000175118,
+        "total_ms": 9.825199999795586
+      },
+      "data": {
+        "volume": 30.0,
+        "muted": true
+      },
+      "os_observation": {
+        "verified": true,
+        "independent_endpoint_state": {
+          "volume": 30.0,
+          "muted": true
+        }
+      },
+      "validated_success": true
+    },
+    {
+      "command_id": "unmute",
+      "input": "Max, unmute.",
+      "exit_code": 0,
+      "wall_seconds": 0.2754574999999022,
+      "timestamp_utc": "2026-10-21T14:56:26.132064+00:00",
+      "ok": true,
+      "text": "Áudio fora do mudo.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 0.00885969999990266,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "unmute_volume",
+      "confidence": 0.99,
+      "skill": "volume",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.009100000170292333,
+        "routing_ms": 1.4906999999766413,
+        "skill_ms": 7.343599999785511,
+        "total_ms": 8.85969999990266
+      },
+      "data": {
+        "volume": 30.0,
+        "muted": false
+      },
+      "os_observation": {
+        "verified": true,
+        "independent_endpoint_state": {
+          "volume": 30.0,
+          "muted": false
+        }
+      },
+      "validated_success": true
+    },
+    {
+      "command_id": "system",
+      "input": "Max, como está o PC?",
+      "exit_code": 0,
+      "wall_seconds": 0.40375589999985095,
+      "timestamp_utc": "2026-10-21T14:56:26.538624+00:00",
+      "ok": true,
+      "text": "CPU 8%, RAM 12,5 de 15,9 GiB, disco C: com 140 GiB livres.",
+      "provider": "local",
+      "model": "",
+      "elapsed_seconds": 0.1343112999998084,
+      "fallback_used": false,
+      "notices": [],
+      "route": "local",
+      "intent": "system_status",
+      "confidence": 0.99,
+      "skill": "system",
+      "risk_level": "SAFE",
+      "llm_used": false,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.0113999999484804,
+        "routing_ms": 1.473300000270683,
+        "skill_ms": 132.81179999967208,
+        "total_ms": 134.3112999998084
+      },
+      "data": {
+        "cpu_percent": 8.3,
+        "ram_used_gib": 12.496856689453125,
+        "ram_total_gib": 15.894073486328125,
+        "disk_free_gib": 139.56257247924805,
+        "disk_total_gib": 445.95409774780273,
+        "drive": "C:",
+        "uptime_seconds": 3429,
+        "top_processes": [
+          {
+            "pid": 13648,
+            "name": "pythonw.exe",
+            "cpu_percent": 8.3,
+            "ram_mib": 990.1
+          },
+          {
+            "pid": 2532,
+            "name": "MemCompression",
+            "cpu_percent": 0.0,
+            "ram_mib": 1328.0
+          },
+          {
+            "pid": 17168,
+            "name": "zen.exe",
+            "cpu_percent": 0.0,
+            "ram_mib": 780.4
+          }
+        ],
+        "gpu": null,
+        "gpu_reason": "Sem medição portátil confiável nesta fase."
+      },
+      "os_observation": {
+        "verified": true,
+        "checks": {
+          "cpu_valid": true,
+          "ram_total_matches": true,
+          "ram_used_plausible": true,
+          "drive_matches": true,
+          "disk_total_matches": true,
+          "disk_free_matches": true,
+          "uptime_matches": true
+        },
+        "independent_uptime_seconds": 3429.2,
+        "independent_ram_used_gib": 12.483421325683594
+      },
+      "validated_success": true
+    }
+  ],
+  "brain_checks": {
+    "codex_identity": {
+      "input": "Qual é o seu nome?",
+      "exit_code": 0,
+      "wall_seconds": 5.2296933000002355,
+      "timestamp_utc": "2026-10-21T14:56:32.372753+00:00",
+      "ok": true,
+      "text": "Meu nome é Max.",
+      "provider": "codex",
+      "model": "padrão do Codex CLI",
+      "elapsed_seconds": 4.954182700000274,
+      "fallback_used": false,
+      "notices": [],
+      "route": "brain",
+      "intent": "unknown",
+      "confidence": 0.0,
+      "skill": null,
+      "risk_level": null,
+      "llm_used": true,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.010700000075303251,
+        "routing_ms": 1.4262999998209125,
+        "skill_ms": 0.0,
+        "total_ms": 4954.182700000274
+      },
+      "data": {},
+      "validated_success": true
+    },
+    "real_codex_failure_ollama_fallback": {
+      "input": "Qual é o seu nome?",
+      "exit_code": 0,
+      "wall_seconds": 16.643117099999927,
+      "timestamp_utc": "2026-10-21T14:56:49.017855+00:00",
+      "ok": true,
+      "text": "Meu nome é Max.",
+      "provider": "ollama",
+      "model": "qwen3:4b",
+      "elapsed_seconds": 16.323221099999955,
+      "fallback_used": true,
+      "notices": [
+        "codex: O Codex não concluiu a solicitação."
+      ],
+      "route": "brain",
+      "intent": "unknown",
+      "confidence": 0.0,
+      "skill": null,
+      "risk_level": null,
+      "llm_used": true,
+      "success": true,
+      "pending_confirmation": false,
+      "status": "completed",
+      "timings": {
+        "normalization_ms": 0.011000000085914508,
+        "routing_ms": 1.6149000002769753,
+        "skill_ms": 0.0,
+        "total_ms": 16323.221099999955
+      },
+      "data": {},
+      "induced_failure": "unsupported model in temporary validation-only config; no process kill",
+      "validated_success": true
+    }
+  },
+  "corrections": [],
+  "scope": "existing skills only; no voice, new skills, Spotify API or gaming mode",
+  "initial_audio_state": {
+    "volume": 75.0,
+    "muted": false
+  },
+  "audio_restoration": {
+    "target": {
+      "volume": 75.0,
+      "muted": false
+    },
+    "observed": {
+      "volume": 75.0,
+      "muted": false
+    },
+    "verified": true,
+    "commands": [
+      {
+        "input": "Max, volume 75.",
+        "exit_code": 0,
+        "wall_seconds": 0.2794705999999678,
+        "timestamp_utc": "2026-10-21T14:56:26.819409+00:00",
+        "ok": true,
+        "text": "Volume em 75%.",
+        "provider": "local",
+        "model": "",
+        "elapsed_seconds": 0.009454399999867746,
+        "fallback_used": false,
+        "notices": [],
+        "route": "local",
+        "intent": "set_volume",
+        "confidence": 0.99,
+        "skill": "volume",
+        "risk_level": "SAFE",
+        "llm_used": false,
+        "success": true,
+        "pending_confirmation": false,
+        "status": "completed",
+        "timings": {
+          "normalization_ms": 0.00959999988481286,
+          "routing_ms": 1.507200000105513,
+          "skill_ms": 7.922600000256352,
+          "total_ms": 9.454399999867746
+        },
+        "data": {
+          "volume": 75.0,
+          "muted": false
+        }
+      },
+      {
+        "input": "Max, unmute.",
+        "exit_code": 0,
+        "wall_seconds": 0.26977080000006026,
+        "timestamp_utc": "2026-10-21T14:56:27.089118+00:00",
+        "ok": true,
+        "text": "Áudio fora do mudo.",
+        "provider": "local",
+        "model": "",
+        "elapsed_seconds": 0.008301400000163994,
+        "fallback_used": false,
+        "notices": [],
+        "route": "local",
+        "intent": "unmute_volume",
+        "confidence": 0.99,
+        "skill": "volume",
+        "risk_level": "SAFE",
+        "llm_used": false,
+        "success": true,
+        "pending_confirmation": false,
+        "status": "completed",
+        "timings": {
+          "normalization_ms": 0.008900000011635711,
+          "routing_ms": 1.4160999999148771,
+          "skill_ms": 6.861800000024232,
+          "total_ms": 8.301400000163994
+        },
+        "data": {
+          "volume": 75.0,
+          "muted": false
+        }
+      }
+    ]
+  },
+  "ollama_runtime": {
+    "already_running": true
+  },
+  "base_config_unchanged": true,
+  "summary": {
+    "local_commands": 8,
+    "local_successes": 8,
+    "local_failures": [],
+    "any_local_llm_used": false,
+    "mean_engine_seconds": 0.12268773749997308,
+    "mean_launcher_wall_seconds": 0.683755099999928,
+    "codex_primary_verified": true,
+    "ollama_fallback_verified": true
+  },
+  "finished_utc": "2026-10-21T15:01:13.863282+00:00",
+  "real_validation_passed": true,
+  "close_confirmation_real": {
+    "execution": "real_windows_interactive_launcher",
+    "app": "calculator",
+    "confirmation_source": "explicit automated test input authorized by validation task",
+    "force_kill_used": false,
+    "transcript": [
+      {
+        "input": "Max, abra a Calculadora.",
+        "output": "Max: Calculadora já estava aberto. Trouxe a janela para frente.\n[local | 0.01s]\nVocê: "
+      },
+      {
+        "input": "Max, feche a Calculadora.",
+        "output": "Max: Quer que eu feche Calculadora?\n[local | 0.03s]\nVocê: "
+      },
+      {
+        "input": "sim",
+        "output": "Max: Solicitei o fechamento de Calculadora. Um aviso de salvamento ou a bandeja pode manter o app aberto.\n[local | 0.03s]\nVocê: "
+      }
+    ],
+    "startup": "MAX | Comandos locais e conversa | Português do Brasil\nDigite ajuda para comandos locais. /status, /limpar, /tentar, /sair.\nVocê: ",
+    "confirmation_prompt_observed": true,
+    "still_open_before_confirmation": true,
+    "normal_close_verified": true,
+    "dispatch_records": [
+      {
+        "normalized_input": "feche a calculadora",
+        "intent": "close_app",
+        "confidence": 0.99,
+        "skill": "apps",
+        "parameters": {
+          "app": "calculator"
+        },
+        "risk_level": "CONFIRM",
+        "provider": "local",
+        "llm_used": false,
+        "success": true,
+        "status": "confirmation_required",
+        "normalization_ms": 0.03500000002532033,
+        "routing_ms": 0.03370000013092067,
+        "skill_ms": 30.40580000015325,
+        "total_ms": 30.493100000057893
+      },
+      {
+        "normalized_input": "sim",
+        "intent": "close_app",
+        "confidence": 0.99,
+        "skill": "apps",
+        "parameters": {
+          "app": "calculator"
+        },
+        "risk_level": "CONFIRM",
+        "provider": "local",
+        "llm_used": false,
+        "success": true,
+        "status": "close_requested",
+        "normalization_ms": 0.027600000066740904,
+        "routing_ms": 0.004500000159168849,
+        "skill_ms": 34.35749999971449,
+        "total_ms": 34.40409999984695
+      }
+    ],
+    "llm_used": false,
+    "passed": true
+  },
+  "unit_tests": {
+    "command": "python -B -m unittest discover -s tests -q",
+    "count": 142,
+    "passed": true,
+    "exit_code": 0,
+    "new_tests_added_for_corrections": 0,
+    "production_integrations_changed": []
+  },
+  "focus_limitations": [
+    {
+      "app": "discord",
+      "detail": "Window was visible and app running, but Windows refused SetForegroundWindow from the automated launcher."
+    },
+    {
+      "app": "spotify",
+      "detail": "Window was visible and app running, but Windows refused SetForegroundWindow from the automated launcher."
+    }
+  ],
+  "git": {
+    "scope": "local repository only; no remote configured",
+    "author": "MAX <max@localhost>",
+    "author_identity": "technical local identity for this commit only; no global git configuration changed",
+    "commit_hash_source": "git rev-parse HEAD after commit; returned in final result"
+  }
+}

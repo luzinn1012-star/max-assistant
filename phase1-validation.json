@@ -1,0 +1,70 @@
+{
+  "timestamp_utc": "2026-10-19T19:45:55.700117+00:00",
+  "python": "3.12.10",
+  "scope": "phase_1_text_only",
+  "checks": [
+    {
+      "check": "identity_auto",
+      "text": "Meu nome é Max.",
+      "provider": "codex",
+      "model": "padrão do Codex CLI",
+      "elapsed_seconds": 6.259857400000328,
+      "fallback_used": false,
+      "notices": []
+    },
+    {
+      "check": "identity_local",
+      "text": "Meu nome é Max.",
+      "provider": "ollama",
+      "model": "qwen3:4b",
+      "elapsed_seconds": 2.179098900000099,
+      "fallback_used": false,
+      "notices": []
+    },
+    {
+      "check": "fallback_after_real_cli_timeout",
+      "text": "Meu nome é Max.",
+      "provider": "ollama",
+      "model": "qwen3:4b",
+      "elapsed_seconds": 3.1944548999999824,
+      "fallback_used": true,
+      "notices": [
+        "codex: O Codex excedeu o tempo de resposta."
+      ],
+      "induced_failure": "codex_timeout_0.001_seconds"
+    },
+    {
+      "check": "context_setup",
+      "text": "Entendido.",
+      "provider": "codex",
+      "model": "padrão do Codex CLI",
+      "elapsed_seconds": 6.009989499999847,
+      "fallback_used": false,
+      "notices": []
+    },
+    {
+      "check": "context_recall",
+      "text": "jacarandá",
+      "provider": "codex",
+      "model": "padrão do Codex CLI",
+      "elapsed_seconds": 6.11777149999989,
+      "fallback_used": false,
+      "notices": []
+    }
+  ],
+  "health": [
+    {
+      "provider": "codex",
+      "ok": true,
+      "detail": "Codex CLI autenticado pelo ChatGPT; inferência depende da conexão e dos limites da conta.",
+      "code": "ok"
+    },
+    {
+      "provider": "ollama",
+      "ok": true,
+      "detail": "Servidor local disponível; modelo qwen3:4b instalado.",
+      "code": "ok"
+    }
+  ],
+  "passed": true
+}

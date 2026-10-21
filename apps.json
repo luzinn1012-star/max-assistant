@@ -1,0 +1,123 @@
+[
+  {
+    "id": "spotify",
+    "label": "Spotify",
+    "aliases": [
+      "spotify",
+      "música",
+      "music"
+    ],
+    "process_names": [
+      "Spotify.exe"
+    ],
+    "uri": "spotify:",
+    "executables": [
+      "%APPDATA%\\Spotify\\Spotify.exe"
+    ],
+    "arguments": [],
+    "allow_close": true
+  },
+  {
+    "id": "discord",
+    "label": "Discord",
+    "aliases": [
+      "discord",
+      "disc"
+    ],
+    "process_names": [
+      "Discord.exe"
+    ],
+    "uri": "discord:",
+    "executables": [
+      "%LOCALAPPDATA%\\Discord\\Update.exe"
+    ],
+    "arguments": [
+      "--processStart",
+      "Discord.exe"
+    ],
+    "allow_close": true
+  },
+  {
+    "id": "calculator",
+    "label": "Calculadora",
+    "aliases": [
+      "calculadora",
+      "calc"
+    ],
+    "process_names": [
+      "CalculatorApp.exe",
+      "Calculator.exe",
+      "calc.exe"
+    ],
+    "uri": "calculator:",
+    "executables": [
+      "%SystemRoot%\\System32\\calc.exe"
+    ],
+    "arguments": [],
+    "allow_close": true
+  },
+  {
+    "id": "notepad",
+    "label": "Bloco de Notas",
+    "aliases": [
+      "bloco de notas",
+      "notepad"
+    ],
+    "process_names": [
+      "notepad.exe"
+    ],
+    "uri": "",
+    "executables": [
+      "%SystemRoot%\\System32\\notepad.exe"
+    ],
+    "arguments": [],
+    "allow_close": true
+  },
+  {
+    "id": "explorer",
+    "label": "Explorador de Arquivos",
+    "aliases": [
+      "explorador",
+      "arquivos",
+      "explorador de arquivos"
+    ],
+    "process_names": [
+      "explorer.exe"
+    ],
+    "uri": "",
+    "executables": [
+      "%SystemRoot%\\explorer.exe"
+    ],
+    "arguments": [],
+    "allow_close": false
+  },
+  {
+    "id": "settings",
+    "label": "Configurações do Windows",
+    "aliases": [
+      "configurações",
+      "settings",
+      "configurações do windows"
+    ],
+    "process_names": [
+      "SystemSettings.exe"
+    ],
+    "uri": "ms-settings:",
+    "executables": [],
+    "arguments": [],
+    "allow_close": true
+  },
+  {
+    "id": "browser",
+    "label": "navegador padrão",
+    "aliases": [
+      "navegador",
+      "browser"
+    ],
+    "process_names": [],
+    "uri": "https://www.google.com",
+    "executables": [],
+    "arguments": [],
+    "allow_close": false
+  }
+]

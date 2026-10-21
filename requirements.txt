@@ -1,0 +1,2 @@
+# Dependência da fase 2 para métricas e identificação de processos.
+psutil==7.2.2

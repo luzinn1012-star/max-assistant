@@ -1,0 +1,1 @@
+Esta pasta está reservada para dados locais. A memória persistente SQLite será implementada na fase sete. Na fase um, o histórico permanece somente na memória do processo. A subpasta codex-work é um diretório vazio de trabalho para a CLI.
