@@ -84,8 +84,11 @@ de teste somente para a Calculadora. O primeiro restaura o áudio anterior.
 ## Git e escopo
 
 Organização técnica revisada em 2026-10-21. Branch main, sem remote e sem
-push. Sugestão: repositório GitHub privado max-assistant, cuja criação depende
-de confirmação explícita do usuário. Nenhuma conta ou URL foi presumida.
+push. O usuário autorizou explicitamente a criação do repositório GitHub privado
+max-assistant. A tentativa de criação abriu a tela de login do GitHub no navegador
+gerenciado; nenhuma conta ou URL de repositório pôde ser confirmada. Nenhum
+repositório foi criado ou alterado. A publicação aguarda autenticação do usuário
+nessa janela; não é necessário enviar senha ou token pelo chat.
 
 A referência estável é v0.2-phase2: fases 1/2 e validação 2.1, com 142 testes
 novamente aprovados durante a organização do Git. A tag local não comprova push.

@@ -11,7 +11,9 @@ pelo roteador local e pelas skills documentados no fim deste arquivo.
 
 Versão estável de referência: `v0.2-phase2`. São 142 testes aprovados e oito
 comandos validados no Windows real. O repositório está na branch `main`, apenas
-localmente; a criação do GitHub privado `max-assistant` aguarda confirmação.
+localmente. A criação do GitHub privado `max-assistant` foi autorizada, mas ainda
+não ocorreu: o navegador gerenciado precisa de login no GitHub antes de identificar
+a conta e criar o repositório. Nenhum remote ou push foi realizado.
 
 - [Estado comprovado e limitações](CURRENT_STATE.md)
 - [Arquitetura implementada](ARCHITECTURE.md)

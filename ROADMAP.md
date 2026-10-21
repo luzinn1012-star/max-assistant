@@ -8,7 +8,7 @@ o estado comprovado está em [CURRENT_STATE.md](CURRENT_STATE.md).
 | Fase 1 — Base e providers | Concluída | Terminal, Codex com login ChatGPT, Ollama e fallback; 38 testes originais. |
 | Fase 2 — Router e primeiras skills | Concluída | Regras locais, registry, apps, pastas, áudio, status e confirmação; 142 testes totais. |
 | Fase 2.1 — Validação real do Windows | Concluída | Oito comandos reais, áudio relido, fechamento confirmado e fallback real; relatórios preservados. |
-| Organização do Git | Preparação local | Documentos técnicos, proteção de credenciais e versão estável; publicação depende de confirmação. |
+| Organização do Git | Preparação local | Documentos técnicos, proteção de credenciais e versão estável; criação privada autorizada, login GitHub pendente. |
 | Fase 3 — Integrações | Não iniciada | Definir integrações de Spotify/Discord e próximos recursos de navegador/arquivos, reutilizando as skills atuais. |
 | Fase 4 — Modo Jogo | Não iniciada | Preparação reversível, estado anterior salvo e restauração; sem alterar proteções do Windows. |
 | Fase 5 — Voz | Não iniciada | STT/TTS locais e intercambiáveis; começar por Push-to-Talk. |

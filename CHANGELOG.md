@@ -31,7 +31,9 @@ técnica local. A tag identifica um commit validado, não uma publicação remot
 - .gitignore ampliado para credenciais, autenticação, ambientes, caches e runtime.
 - README/CURRENT_STATE revisados e ROADMAP/TODO/ARCHITECTURE/DECISIONS criados.
 - Histórico mantido em commits pequenos, sem mudanças no funcionamento do MAX.
-- Repositório privado sugerido; criação e push pendentes de confirmação.
+- Criação do repositório privado max-assistant autorizada pelo usuário.
+- Tentativa pelo navegador interrompida na tela de login; nenhum repositório foi
+  criado, nenhum remote configurado e nenhum push realizado. Publicação aguarda login.
 
 ## Marco da fase 1 — 2026-10-19
 

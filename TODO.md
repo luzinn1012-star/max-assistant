@@ -14,7 +14,8 @@ Atualizado em 2026-10-21.
 
 ## Publicação pendente
 
-- [ ] Obter confirmação explícita para criar o repositório privado max-assistant.
+- [x] Obter confirmação explícita para criar o repositório privado max-assistant.
+- [ ] Autenticar o usuário no GitHub no navegador gerenciado, que abriu a tela de login.
 - [ ] Confirmar a conta proprietária durante a criação, sem inventar URL.
 - [ ] Criar o repositório vazio, sem README ou commit inicial remoto.
 - [ ] Configurar origin com a URL efetivamente retornada pelo GitHub.
